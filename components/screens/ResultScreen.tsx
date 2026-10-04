@@ -5,7 +5,8 @@ import { useState } from "react";
 import { Sparkles, Info, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWizard } from "@/store/wizard-store";
-import { SuitabilityGauge } from "@/components/result/SuitabilityGauge";
+import { UnderEyeSummary } from "@/components/result/UnderEyeSummary";
+import { RecommendedTreatment } from "@/components/result/RecommendedTreatment";
 import { UnderEyePanel } from "@/components/result/UnderEyePanel";
 import { TreatmentPlan } from "@/components/result/TreatmentPlan";
 import {
@@ -77,20 +78,18 @@ export function ResultScreen() {
     <div className="mx-auto w-full max-w-2xl px-6 py-10">
       <motion.div {...reveal(0)} className="flex flex-col items-center text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-peach-deep">
-          <Sparkles size={13} /> {meta.label}
+          <Sparkles size={13} /> {meta.chip}
         </span>
         <h2 className="mt-4 font-serif text-[32px] leading-tight text-heading sm:text-[40px]">
           {narrative.headline}
         </h2>
       </motion.div>
 
-      <motion.div {...reveal(0.25)} className="mt-8 flex justify-center">
-        <SuitabilityGauge
-          score={result.score}
-          accent={meta.accent}
-          label={meta.label}
-        />
-      </motion.div>
+      {result.usedPhoto && (
+        <motion.div {...reveal(0.2)} className="mt-8">
+          <UnderEyeSummary result={result} />
+        </motion.div>
+      )}
 
       <motion.div
         {...reveal(0.5)}
@@ -152,6 +151,12 @@ export function ResultScreen() {
       <motion.div {...reveal(0.6)} className="mt-10">
         <UnderEyePanel />
       </motion.div>
+
+      {result.treatment.lead !== "consultation" && (
+        <motion.div {...reveal(0.65)} className="mt-10">
+          <RecommendedTreatment lead={result.treatment.lead} />
+        </motion.div>
+      )}
 
       <motion.div {...reveal(0.7)} className="mt-10">
         <TreatmentPlan />

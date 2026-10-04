@@ -151,6 +151,8 @@ export interface BucketMeta {
   /** Brand token used to theme the verdict (CSS var name without `--color-`). */
   accent: "peach" | "sage";
   ctaLabel: string;
+  /** What the CLIENT sees at the top of the report (`label` stays for GoHighLevel). */
+  chip: string;
   /** Indicative gauge band centre for this bucket (0–100). */
   gaugeBand: [number, number];
 }
@@ -158,6 +160,7 @@ export interface BucketMeta {
 export const BUCKET_META: Record<Bucket, BucketMeta> = {
   great: {
     label: "Strong candidate",
+    chip: "Great match for our under-eye treatments",
     headline: "Your under-eye area shows exactly what we treat",
     blurb:
       "What's visible in your photo is the kind of under-eye concern our doctor-led treatments are designed to improve.",
@@ -167,6 +170,7 @@ export const BUCKET_META: Record<Bucket, BucketMeta> = {
   },
   good: {
     label: "Good candidate",
+    chip: "Good match for our under-eye treatments",
     headline: "Your under-eye area could respond well",
     blurb:
       "Your photo shows the kind of subtle change that responds well to treatment — a consultation will confirm the detail.",
@@ -176,6 +180,7 @@ export const BUCKET_META: Record<Bucket, BucketMeta> = {
   },
   consultation: {
     label: "Consultation recommended",
+    chip: "Let's look at your under-eyes together",
     headline: "Let's look at your under-eye area together",
     blurb:
       "Your eyes are best reviewed by our doctor-led team before we can be sure of the right plan. That's completely normal.",
@@ -185,6 +190,7 @@ export const BUCKET_META: Record<Bucket, BucketMeta> = {
   },
   alternative: {
     label: "Let's explore your options",
+    chip: "Let's explore your options",
     headline: "Another approach may suit you better",
     blurb:
       "Your goals may be better met by a different route. A consultation is the best way to find the right one.",

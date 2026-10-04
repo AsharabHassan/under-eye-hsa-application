@@ -39,7 +39,7 @@ export function TreatmentPlan() {
         >
           {isConsultation
             ? "Your next step"
-            : "Your recommended treatment"}
+            : "Your treatment plan"}
         </h3>
         {result.treatment.reason ? (
           <p className="mx-auto mt-2 max-w-md font-serif text-[16px] italic leading-relaxed text-heading/85">
