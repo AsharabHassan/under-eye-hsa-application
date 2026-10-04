@@ -3,6 +3,7 @@ import { assessPhoto } from "@/lib/anthropic";
 import { buildResult, genericFallbackResult } from "@/lib/assessment";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 // POST /api/analyze — photo-only AI suitability read.
 // Claude assesses the selfie, chooses the cosmetic outcome, and writes the copy.
