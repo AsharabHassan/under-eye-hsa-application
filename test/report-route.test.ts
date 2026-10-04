@@ -63,17 +63,17 @@ describe("POST /api/report", () => {
       email: "jane@example.com",
       pdfBase64: PDF_BASE64,
     });
-    expect(input.subject).toContain("under-eye analysis report");
+    expect(input.subject).toContain("eye rejuvenation analysis report");
     expect(input.emailHtml).toContain("Hi Jane");
     expect(input.emailHtml).toContain("Harley Street Aesthetics London");
-    expect(input.fileName).toBe("Under-Eye-Analysis-Report-Jane.pdf");
+    expect(input.fileName).toBe("Eye-Rejuvenation-Report-Jane.pdf");
     expect(input.tags).toEqual([
       "undereye-analyzer",
       "hsa-undereye-lead",
       "hsa-source-undereye-app",
       "hsa-clinic-london",
     ]);
-    expect(input.source).toBe("Under-Eye Analyzer · London");
+    expect(input.source).toBe("Eye Rejuvenation Analyzer · London");
   });
 
   it("escapes the name so a crafted lead cannot inject HTML into the email", async () => {
@@ -97,8 +97,8 @@ describe("POST /api/report", () => {
 
     const input = deliverReportToGhl.mock.calls[0][0];
     expect(input.emailHtml).toContain("Harley Street Aesthetics Glasgow");
-    expect(input.noteBody).toContain("Glasgow under-eye analysis report");
-    expect(input.source).toBe("Under-Eye Analyzer · Glasgow");
+    expect(input.noteBody).toContain("Glasgow eye rejuvenation analysis report");
+    expect(input.source).toBe("Eye Rejuvenation Analyzer · Glasgow");
     expect(input.tags).toContain("hsa-clinic-glasgow");
   });
 

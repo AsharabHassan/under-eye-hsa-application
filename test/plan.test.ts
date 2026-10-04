@@ -173,6 +173,7 @@ describe("treatmentsFor / menu integrity", () => {
 
   it("maps each concern to the agreed HSA treatment", () => {
     expect(CONCERN_TO_TREATMENT).toEqual({
+      hooding: "coolbleph",
       hollowing: "teartrough",
       darkcircles: "darkcircles",
       puffiness: "coolbleph",

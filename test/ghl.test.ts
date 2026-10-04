@@ -68,7 +68,7 @@ describe("buildGhlPayload", () => {
       name: "Jane Doe",
       email: "jane@example.com",
       phone: "07700900123",
-      source: "Under-Eye Analyzer · London",
+      source: "Eye Rejuvenation Analyzer · London",
       clinicLocation: "london",
       clinicLocationLabel: "London",
       clinicAddress: "10 Harley Street, London W1G 9PF",
@@ -107,7 +107,7 @@ describe("buildGhlPayload", () => {
       { ...result, treatment: { ...result.treatment, lead: "coolbleph" } },
       buildOptions({ clinicLocation: "glasgow" }),
     );
-    expect(payload.source).toBe("Under-Eye Analyzer · Glasgow");
+    expect(payload.source).toBe("Eye Rejuvenation Analyzer · Glasgow");
     expect(payload.clinicLocationLabel).toBe("Glasgow");
     expect(payload.leadTreatmentPrice).toBe(
       "Price confirmed at your consultation",

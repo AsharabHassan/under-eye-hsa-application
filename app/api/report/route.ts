@@ -128,13 +128,13 @@ export async function POST(request: Request): Promise<Response> {
   const clinic = getClinicLocation(clinicLocation);
 
   const safeName = (first || "client").replace(/[^\w-]/g, "") || "client";
-  const fileName = `Under-Eye-Analysis-Report-${safeName}.pdf`;
-  const subject = `${first || "Your"} under-eye analysis report`;
+  const fileName = `Eye-Rejuvenation-Report-${safeName}.pdf`;
+  const subject = `${first || "Your"} eye rejuvenation analysis report`;
 
   const emailHtml = `
     <div style="font-family:Manrope,Helvetica,Arial,sans-serif;color:#1c1813;line-height:1.6">
       <p>Hi ${emailFirst},</p>
-      <p>Thank you for taking the under-eye analysis with
+      <p>Thank you for taking the eye rejuvenation analysis with
       <strong>${CLINIC.name} ${clinic.city}</strong>. Your personalised report is attached as a PDF.</p>
       <p>It's a guide to help you prepare — your suitability is always confirmed by
       our Harley Street medical team. When you're ready, book your consultation and
@@ -143,7 +143,7 @@ export async function POST(request: Request): Promise<Response> {
       <p style="color:#5c5852">— ${CLINIC.name}, ${clinic.city}</p>
     </div>`;
 
-  const noteParts = [`📄 ${clinic.city} under-eye analysis report`];
+  const noteParts = [`📄 ${clinic.city} eye rejuvenation analysis report`];
   if (label) noteParts.push(`— ${label}`);
   if (score !== undefined) noteParts.push(`(${score}/100)`);
   const noteBody = `${noteParts.join(" ")}: {url}`;
@@ -158,7 +158,7 @@ export async function POST(request: Request): Promise<Response> {
     subject,
     emailHtml,
     noteBody,
-    source: `Under-Eye Analyzer · ${clinic.city}`,
+    source: `Eye Rejuvenation Analyzer · ${clinic.city}`,
     tags: baseTags(clinic.key),
   });
 

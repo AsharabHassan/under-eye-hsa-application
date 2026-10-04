@@ -119,7 +119,7 @@ export function LeadGateScreen() {
           Where shall we send your result?
         </h2>
         <p className="mt-2 text-sm text-body">
-          See your personalised under-eye analysis and the Harley Street
+          See your personalised eye rejuvenation analysis and the Harley Street
           Aesthetics treatment matched to it. We&rsquo;ll email your report and
           keep a copy on your record so our {clinic.city} team can review it
           before your consultation.

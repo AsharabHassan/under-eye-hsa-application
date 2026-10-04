@@ -20,13 +20,13 @@ const montserrat = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Free AI Under-Eye Analysis · Harley Street Aesthetics",
+  title: "Free AI Eye Rejuvenation Analysis · Harley Street Aesthetics",
   description:
     "A 60-second AI analysis of hollowing, dark circles, puffiness, fine lines and crow's feet — matched to the right Harley Street Aesthetics treatment. Doctor-led, London & Glasgow.",
   openGraph: {
-    title: "Free AI Under-Eye Analysis · Harley Street Aesthetics",
+    title: "Free AI Eye Rejuvenation Analysis · Harley Street Aesthetics",
     description:
-      "Take the 60-second under-eye analysis and see which Harley Street Aesthetics treatment could suit you, before you book your consultation.",
+      "Take the 60-second eye rejuvenation analysis and see which Harley Street Aesthetics treatment could suit you, before you book your consultation.",
     url: SITE_URL,
     siteName: "Harley Street Aesthetics",
     locale: "en_GB",

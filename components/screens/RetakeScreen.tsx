@@ -36,7 +36,7 @@ export function RetakeScreen() {
         <p className="mt-3 text-[15px] leading-relaxed text-body">
           We couldn&rsquo;t clearly see{" "}
           <span className="font-medium text-heading">
-            both under-eye areas in even light
+            both eyes in even light
           </span>{" "}
           — which is what an accurate read needs. Retake your photo with the{" "}
           <span className="font-medium text-heading">camera</span>, eyes open

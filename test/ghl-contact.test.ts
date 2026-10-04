@@ -34,7 +34,7 @@ describe("ensureLeadRoutingInGhl", () => {
         email: "jane@example.com",
         phone: "07700900123",
       },
-      source: "Under-Eye Analyzer · Glasgow",
+      source: "Eye Rejuvenation Analyzer · Glasgow",
       tags: ["hsa-undereye-lead", "hsa-clinic-glasgow"],
     });
 
@@ -43,7 +43,7 @@ describe("ensureLeadRoutingInGhl", () => {
       "https://services.leadconnectorhq.com/contacts/upsert",
     );
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({
-      source: "Under-Eye Analyzer · Glasgow",
+      source: "Eye Rejuvenation Analyzer · Glasgow",
       createNewIfDuplicateAllowed: false,
     });
     expect(fetchMock.mock.calls[1][0]).toBe(

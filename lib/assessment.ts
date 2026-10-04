@@ -67,7 +67,7 @@ export function genericFallbackResult(usedPhoto: boolean): AnalyzeResult {
     softFlagged: false,
     routedReason: "",
     narrative: {
-      headline: "Let's look at your under-eye area together",
+      headline: "Let's look at your eye area together",
       narrative:
         "We couldn't fully read your photo this time, but that's no problem at all. The surest way to understand what's showing under your eyes — and which of our treatments could help — is a consultation with our Harley Street medical team.",
       observedAreas: [],

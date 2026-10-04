@@ -28,7 +28,7 @@ export function UnderEyeSummary({ result }: { result: AnalyzeResult }) {
   return (
     <div className="rounded-[2rem] border border-peach/30 bg-white/[0.04] p-6 shadow-soft sm:p-7">
       <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-peach-deep">
-        <ScanEye size={14} /> Your under-eye condition
+        <ScanEye size={14} /> Your eye condition
       </p>
       <p className="mt-3 text-[13px] text-body/80">Your photo appears most consistent with</p>
       <h3 className="mt-1 font-serif text-[28px] leading-tight text-heading sm:text-[32px]">{c.name}</h3>

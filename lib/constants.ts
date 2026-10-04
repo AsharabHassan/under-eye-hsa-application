@@ -160,18 +160,18 @@ export interface BucketMeta {
 export const BUCKET_META: Record<Bucket, BucketMeta> = {
   great: {
     label: "Strong candidate",
-    chip: "Great match for our under-eye treatments",
-    headline: "Your under-eye area shows exactly what we treat",
+    chip: "Great match for our eye rejuvenation treatments",
+    headline: "Your eye area shows exactly what we treat",
     blurb:
-      "What's visible in your photo is the kind of under-eye concern our doctor-led treatments are designed to improve.",
+      "What's visible in your photo is the kind of eye-area concern our doctor-led treatments are designed to improve.",
     accent: "peach",
     ctaLabel: "Book your consultation",
     gaugeBand: [82, 100],
   },
   good: {
     label: "Good candidate",
-    chip: "Good match for our under-eye treatments",
-    headline: "Your under-eye area could respond well",
+    chip: "Good match for our eye rejuvenation treatments",
+    headline: "Your eye area could respond well",
     blurb:
       "Your photo shows the kind of subtle change that responds well to treatment — a consultation will confirm the detail.",
     accent: "peach",
@@ -180,8 +180,8 @@ export const BUCKET_META: Record<Bucket, BucketMeta> = {
   },
   consultation: {
     label: "Consultation recommended",
-    chip: "Let's look at your under-eyes together",
-    headline: "Let's look at your under-eye area together",
+    chip: "Let's look at your eyes together",
+    headline: "Let's look at your eye area together",
     blurb:
       "Your eyes are best reviewed by our doctor-led team before we can be sure of the right plan. That's completely normal.",
     accent: "sage",
@@ -214,6 +214,7 @@ export interface ConcernMeta {
 }
 
 export const CONCERN_ORDER: ConcernKey[] = [
+  "hooding",
   "hollowing",
   "darkcircles",
   "puffiness",
@@ -222,6 +223,13 @@ export const CONCERN_ORDER: ConcernKey[] = [
 ];
 
 export const CONCERNS: Record<ConcernKey, ConcernMeta> = {
+  hooding: {
+    key: "hooding",
+    label: "Upper eyelid hooding",
+    meaning: "Heavy, folded or loose skin on the upper eyelid",
+    blurb:
+      "CO₂ non-surgical blepharoplasty tightens and lifts loose upper-eyelid skin, opening up the eye without surgery.",
+  },
   hollowing: {
     key: "hollowing",
     label: "Hollowing",

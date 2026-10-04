@@ -44,7 +44,7 @@ describe("deliverReportToGhl", () => {
       subject: "Your report",
       emailHtml: "<p>Your report</p>",
       noteBody: "London report: {url}",
-      source: "Under-Eye Analyzer · London",
+      source: "Eye Rejuvenation Analyzer · London",
       tags: ["hsa-undereye-lead", "hsa-clinic-london"],
     });
 
@@ -61,7 +61,7 @@ describe("deliverReportToGhl", () => {
       "https://services.leadconnectorhq.com/contacts/upsert",
     );
     expect(JSON.parse(upsert[1].body)).toMatchObject({
-      source: "Under-Eye Analyzer · London",
+      source: "Eye Rejuvenation Analyzer · London",
       customFields: [
         {
           key: "facial_app_report_pdf",

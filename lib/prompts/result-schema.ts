@@ -3,6 +3,7 @@
 // needs additionalProperties:false.
 
 const CONCERN_ENUM = [
+  "hooding",
   "hollowing",
   "darkcircles",
   "puffiness",
@@ -73,7 +74,7 @@ export const RESULT_SCHEMA = {
       type: "string",
       enum: TREATMENT_ENUM,
       description:
-        "The ONE Harley Street Aesthetics menu item that best addresses the most prominent concern: hollowing → 'teartrough'; dark circles / dull, thin skin → 'darkcircles'; puffiness / under-eye bags → 'coolbleph' (never filler); fine lines / crepey texture → 'coolbleph'; crow's feet → 'antiwrinkle'. MUST be 'consultation' when suitability is 'consultation' or 'alternative', or when the photo cannot be read.",
+        "The ONE Harley Street Aesthetics menu item that best addresses the most prominent concern: upper-eyelid hooding → 'coolbleph'; hollowing → 'teartrough'; dark circles / dull, thin skin → 'darkcircles'; puffiness / under-eye bags → 'coolbleph' (never filler); fine lines / crepey texture → 'coolbleph'; crow's feet → 'antiwrinkle'. MUST be 'consultation' when suitability is 'consultation' or 'alternative', or when the photo cannot be read.",
     },
     treatmentReason: {
       type: "string",

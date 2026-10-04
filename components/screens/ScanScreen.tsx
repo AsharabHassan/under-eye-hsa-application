@@ -14,7 +14,7 @@ const STATUS = [
   "Mapping facial structure",
   "Locating the under-eye areas",
   "Reading contour, tone and texture",
-  "Matching to our under-eye treatments",
+  "Matching to our eye rejuvenation treatments",
 ];
 
 export function ScanScreen() {
@@ -84,7 +84,7 @@ export function ScanScreen() {
   // loader has run its minimum duration. If the API is slow, the loader holds.
   useEffect(() => {
     if (!result || !minElapsed) return;
-    // If the photo didn't clearly show both under-eye areas in even light, route
+    // If the photo didn't clearly show both eyes in even light, route
     // to a retake prompt instead of giving a read we can't stand behind.
     if (result.usedPhoto && !result.framingAdequate) goToStep("retake");
     else completeScan();

@@ -177,7 +177,7 @@ export async function generateReportPdf(opts: {
 
   return buildReportPdf({
     clinicName: CLINIC.name,
-    treatmentName: "Under-Eye",
+    treatmentName: "Eye Rejuvenation",
     byline: `${clinic.city} · ${CLINIC.director}`,
     mono: "H S A",
     // Harley Street Aesthetics dark-gold palette (matches app/globals.css).

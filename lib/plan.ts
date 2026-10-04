@@ -34,6 +34,7 @@ export function isTreatmentId(v: unknown): v is TreatmentId {
 
 /** The treatment each concern leads to. Puffiness and crepey skin go to CO₂ non-surgical blepharoplasty — never filler. */
 export const CONCERN_TO_TREATMENT: Record<ConcernKey, TreatmentId> = {
+  hooding: "coolbleph",
   hollowing: "teartrough",
   darkcircles: "darkcircles",
   puffiness: "coolbleph",

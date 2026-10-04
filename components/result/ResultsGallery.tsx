@@ -42,7 +42,7 @@ export function ResultsGallery() {
         </h3>
       </div>
       <p className="mx-auto mt-1 max-w-md text-center text-[13px] leading-relaxed text-body/80">
-        Under-eye results from our {clinic.city} team. Individual results vary
+        Eye results from our {clinic.city} team. Individual results vary
         — yours is confirmed at your consultation.
       </p>
 

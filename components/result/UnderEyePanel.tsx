@@ -114,7 +114,7 @@ export function UnderEyePanel() {
       <div className="flex items-center justify-center gap-2 text-center">
         <Eye size={15} className="text-peach" />
         <h3 className="font-serif text-xl text-heading sm:text-2xl">
-          Your under-eye analysis
+          Your eye rejuvenation analysis
         </h3>
       </div>
       <p className="mx-auto mt-1 max-w-md text-center text-[13px] leading-relaxed text-body/80">
@@ -133,7 +133,7 @@ export function UnderEyePanel() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={band.src}
-            alt="A close-up of your eyes with the under-eye areas highlighted"
+            alt="A close-up of your eyes with the eye areas highlighted"
             className="block h-auto w-full select-none"
             draggable={false}
           />

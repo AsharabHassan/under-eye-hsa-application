@@ -25,7 +25,7 @@ export function HeroScreen() {
         transition={{ duration: 0.8, ease: EASE, delay: 0.15 }}
         className="relative z-10 inline-flex items-center gap-2 rounded-full border border-peach/35 bg-cream/80 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-peach-deep shadow-[0_8px_30px_-12px_rgba(212,175,55,0.45)] backdrop-blur-md"
       >
-        <Sparkles size={13} /> AI under-eye analysis · {clinic.city}
+        <Sparkles size={13} /> AI eye rejuvenation analysis · {clinic.city}
       </motion.span>
 
       <h1 className="relative z-10 mt-8 font-serif text-[44px] leading-[1.04] tracking-tight text-heading sm:text-[66px]">

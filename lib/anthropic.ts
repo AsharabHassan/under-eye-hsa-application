@@ -31,6 +31,7 @@ const MAP: Record<string, Bucket> = {
 };
 
 const CONCERN_KEYS: ConcernKey[] = [
+  "hooding",
   "hollowing",
   "darkcircles",
   "puffiness",
@@ -184,7 +185,7 @@ export async function assessPhoto(params: {
           },
           {
             type: "text",
-            text: "Assess the under-eye area in this selfie and produce the personalised result as the structured fields.",
+            text: "Assess the eye area — upper eyelids, under-eyes and outer corners — in this selfie and produce the personalised result as the structured fields.",
           },
           ...(scan ? [{ type: "text" as const, text: underEyeNote(scan) }] : []),
         ],

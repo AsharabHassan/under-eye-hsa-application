@@ -17,6 +17,7 @@ const WEBHOOK_TIMEOUT_MS = 5_000;
 
 const shortText = z.string().trim().min(1).max(200);
 const concernKey = z.enum([
+  "hooding",
   "hollowing",
   "darkcircles",
   "puffiness",
@@ -236,7 +237,7 @@ export async function POST(request: Request): Promise<Response> {
     : Promise.resolve<DeliveryResult>({ delivered: false, attempts: 0 });
   const routingPromise = ensureLeadRoutingInGhl({
     lead: body.lead,
-    source: `Under-Eye Analyzer · ${payload.clinicLocationLabel}`,
+    source: `Eye Rejuvenation Analyzer · ${payload.clinicLocationLabel}`,
     tags: payload.tags,
   });
   const [delivery, routing] = await Promise.all([

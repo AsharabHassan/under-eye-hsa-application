@@ -58,7 +58,7 @@ export function ResultScreen() {
       const a = document.createElement("a");
       a.href = url;
       const who = lead?.firstName ? `-${lead.firstName}` : "";
-      a.download = `Under-Eye-Analysis-Report${who}.pdf`;
+      a.download = `Eye-Rejuvenation-Report${who}.pdf`;
       document.body.appendChild(a);
       a.click();
       a.remove();

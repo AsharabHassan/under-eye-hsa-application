@@ -18,6 +18,13 @@ export interface Condition {
 }
 
 export const CONDITIONS: Record<ConcernKey, Condition> = {
+  hooding: {
+    name: "Dermatochalasis",
+    commonName: "hooded or heavy upper eyelids",
+    what: "Loose, folded skin on the upper eyelid that sits closer to the lashes, making the eyes look heavier, smaller or more tired than you feel.",
+    cause:
+      "With time the thin eyelid skin loses collagen and elasticity and the brow can settle lower, so the extra skin folds over; genetics and sun exposure play a part.",
+  },
   hollowing: {
     name: "Tear trough hollowing",
     commonName: "under-eye hollows",

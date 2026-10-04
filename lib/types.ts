@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Domain model for the HSA Under-Eye Analyzer. Claude Vision chooses the
+// Domain model for the HSA Eye Rejuvenation Analyzer. Claude Vision chooses the
 // suitability outcome, rates five under-eye concerns and proposes a lead
 // treatment from Harley Street Aesthetics' own menu; lib/plan.ts validates that proposal.
 // All face geometry stays on-device (MediaPipe) — the model only ever returns
@@ -14,6 +14,7 @@ export type ClinicLocationKey = "london" | "glasgow";
 
 /** The under-eye concerns the analysis rates. */
 export type ConcernKey =
+  | "hooding"
   | "hollowing"
   | "darkcircles"
   | "puffiness"

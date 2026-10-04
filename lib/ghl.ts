@@ -198,7 +198,7 @@ export function buildGhlPayload(
     name: `${lead.firstName} ${lead.lastName}`.trim(),
     email: lead.email,
     phone: lead.phone,
-    source: `Under-Eye Analyzer · ${clinic.city}`,
+    source: `Eye Rejuvenation Analyzer · ${clinic.city}`,
     tags: [
       ...baseTags(clinic.key),
       `undereye-${result.bucket}`,

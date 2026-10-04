@@ -42,6 +42,7 @@ interface RegionConfig {
   extendUp?: number;
 }
 
+// Crops cover the WHOLE eye area — brow to cheek — for eye rejuvenation.
 // MediaPipe FaceMesh: landmarks 33…133 ring the IMAGE-LEFT eye (the subject's
 // right eye in an unmirrored photo); 263…362 ring the IMAGE-RIGHT eye. The
 // infra-orbital rows (117–121 / 346–350), the cheek-top points (100/101,
@@ -53,22 +54,26 @@ const REGIONS: Record<RegionKey, RegionConfig> = {
       33, 7, 163, 144, 145, 153, 154, 155, 133, // lower lid ring
       117, 118, 119, 120, 121, 47, 100, 101, 111, 116, 123, // infra-orbital + trough
       127, 34, 143, // outer corner / crow's feet
+      246, 161, 160, 159, 158, 157, 173, // upper lid
+      70, 63, 105, 66, 107, // under the brow (hooding)
     ],
     anchorIndices: [117, 118, 119, 120, 121, 111, 116],
-    margin: 0.24,
+    margin: 0.18,
     extendDown: 0.03,
-    extendUp: 0.015,
+    extendUp: 0.01,
   },
   right: {
     indices: [
       263, 249, 390, 373, 374, 380, 381, 382, 362, // lower lid ring
       346, 347, 348, 349, 350, 277, 329, 330, 340, 345, 352, // infra-orbital + trough
       356, 264, 372, // outer corner / crow's feet
+      466, 388, 387, 386, 385, 384, 398, // upper lid
+      300, 293, 334, 296, 336, // under the brow (hooding)
     ],
     anchorIndices: [346, 347, 348, 349, 350, 340, 345],
-    margin: 0.24,
+    margin: 0.18,
     extendDown: 0.03,
-    extendUp: 0.015,
+    extendUp: 0.01,
   },
   eyes: {
     // Both eyes plus the under-eye band, for the panel's hero crop.
@@ -77,10 +82,11 @@ const REGIONS: Record<RegionKey, RegionConfig> = {
       117, 119, 121, 346, 348, 350, 100, 329, // under-eye rows
       127, 356, // temples
       6, 168, // nose bridge (keeps the band centred)
+      70, 105, 107, 300, 334, 336, // brows — the upper lids and hooding are in frame
     ],
-    margin: 0.16,
+    margin: 0.14,
     extendDown: 0.045,
-    extendUp: 0.03,
+    extendUp: 0.01,
   },
 };
 
