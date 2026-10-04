@@ -65,9 +65,10 @@ export function ConsentCaptureScreen() {
         A quick photo to begin
       </h2>
       <p className="mt-3 text-body">
-        Our AI looks closely at the area beneath your eyes to tailor your
-        result. Your photo is securely sent to our AI provider for this
-        one-time analysis. This app does not keep the original upload &mdash;
+        Our AI looks closely at your whole eye area &mdash; upper lids,
+        under-eyes and outer corners &mdash; to tailor your result. Your photo
+        is securely sent to our AI provider and to our own secure analysis
+        server for this one-time analysis. This app does not keep the original upload &mdash;
         your personalised report is emailed to you and saved to your clinic
         record.
       </p>
@@ -90,7 +91,8 @@ export function ConsentCaptureScreen() {
           <p className="rounded-2xl border border-sage/25 bg-sage/[0.07] px-4 py-3 text-xs leading-relaxed text-body/80">
             <Lock size={13} className="mr-1 inline text-sage-deep" />
             By choosing an option below, I explicitly consent to my selfie being
-            securely sent to the AI provider for this one-time under-eye
+            securely sent to the AI provider and to Harley Street
+            Aesthetics&rsquo; own secure analysis server for this one-time eye
             analysis. My personalised report, which includes my photo, will be
             emailed to me and saved to my clinic contact record.
           </p>

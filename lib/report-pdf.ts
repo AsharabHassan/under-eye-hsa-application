@@ -287,7 +287,7 @@ export function buildReportPdf(input: ReportInput): Blob {
   if (input.usedPhoto && input.obscuredNotice) {
     noticePanel(
       "One side was covered",
-      "Glasses, hair, shadow or heavy concealer hid part of the under-eye area, so that read was kept light. It will be assessed properly at your consultation.",
+      "Glasses, hair, shadow or heavy concealer hid part of the eye area, so that read was kept light. It will be assessed properly at your consultation.",
     );
   }
   if (input.usedPhoto && input.makeupNotice) {
@@ -319,7 +319,7 @@ export function buildReportPdf(input: ReportInput): Blob {
       imgW = maxH * aspect;
     }
     ensure(imgH + 18);
-    sectionTitle("Your under-eye areas", y);
+    sectionTitle("Your eye areas", y);
     y += 9;
     const ix = (PW - imgW) / 2;
     doc.setDrawColor(...P.line);

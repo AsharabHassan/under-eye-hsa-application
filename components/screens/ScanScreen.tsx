@@ -12,7 +12,7 @@ import { requestAnalysis } from "@/lib/api-client";
 
 const STATUS = [
   "Mapping facial structure",
-  "Locating the under-eye areas",
+  "Locating your eyelids and under-eyes",
   "Reading contour, tone and texture",
   "Matching to our eye rejuvenation treatments",
 ];
@@ -96,7 +96,7 @@ export function ScanScreen() {
         Analysing
       </p>
       <h2 className="mt-3 text-center font-serif text-[28px] leading-tight text-heading sm:text-[34px]">
-        Reading your under-eye area
+        Reading your eye area
       </h2>
 
       <div className="relative mt-8 aspect-[4/5] w-full max-w-xs overflow-hidden rounded-[2rem] border border-peach/20 bg-cream-deep shadow-soft">

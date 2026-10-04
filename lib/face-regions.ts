@@ -199,6 +199,6 @@ export const SIDE_ORDER: EyeSide[] = ["left", "right"];
 
 /** Short label for a side, as it appears in the photo. */
 export const SIDE_LABEL: Record<EyeSide, string> = {
-  left: "Left under-eye",
-  right: "Right under-eye",
+  left: "Left eye",
+  right: "Right eye",
 };

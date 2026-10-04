@@ -2,17 +2,21 @@
 
 import { motion } from "motion/react";
 import { ScanEye } from "lucide-react";
-import { CONCERNS, TREATMENTS } from "@/lib/constants";
-import { rankConcerns } from "@/lib/plan";
+import { CONCERNS } from "@/lib/constants";
+import { CONCERN_TO_TREATMENT, rankConcerns } from "@/lib/plan";
 import { CONDITIONS } from "@/lib/undereye-content";
 import { EASE } from "@/lib/motion";
 import type { AnalyzeResult, ConcernKey } from "@/lib/types";
 
-/** The concern the report is built around: the one the lead treatment treats, else the most visible. */
+/**
+ * The concern the report is built around: the most visible concern that the
+ * lead treatment treats (CO₂ bleph covers hooding, bags and crepey skin, so pick
+ * whichever of those shows most), else simply the most visible concern.
+ */
 export function mainConcern(result: AnalyzeResult): ConcernKey {
-  const led = TREATMENTS[result.treatment.lead]?.leadsFor;
-  if (led) return led;
-  return rankConcerns(result.concernSeverity)[0].key;
+  const ranked = rankConcerns(result.concernSeverity);
+  const treated = ranked.find((c) => c.severity > 0 && CONCERN_TO_TREATMENT[c.key] === result.treatment.lead);
+  return (treated ?? ranked[0]).key;
 }
 
 /**

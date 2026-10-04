@@ -215,8 +215,10 @@ export function CameraCapture({ onCapture, onError }: CameraCaptureProps) {
         </p>
 
         {!ready && (
-          <div className="absolute inset-0 flex items-center justify-center text-sm text-white/80">
-            <RefreshCcw className="mr-2 animate-spin" size={16} /> Starting camera…
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="flex items-center rounded-full bg-black/55 px-3 py-1.5 text-sm text-white backdrop-blur-sm">
+              <RefreshCcw className="mr-2 animate-spin" size={15} /> Starting camera…
+            </span>
           </div>
         )}
       </div>

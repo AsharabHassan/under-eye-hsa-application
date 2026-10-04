@@ -119,7 +119,7 @@ export function UnderEyePanel() {
       </div>
       <p className="mx-auto mt-1 max-w-md text-center text-[13px] leading-relaxed text-body/80">
         Cropped from your own photo, on your device. The ratings below show
-        what the AI could see under each eye — confirmed at your consultation.
+        what the AI could see around each eye — confirmed at your consultation.
       </p>
 
       {/* ── Eye band with markers ─────────────────────────────────────── */}
@@ -182,7 +182,7 @@ export function UnderEyePanel() {
             })}
           </svg>
           <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-ink/70 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-white backdrop-blur-sm">
-            Under-eye areas
+            Your eye areas
           </span>
         </motion.figure>
       </div>

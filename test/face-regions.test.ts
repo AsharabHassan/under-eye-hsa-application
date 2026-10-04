@@ -61,8 +61,8 @@ describe("face-regions under-eye areas", () => {
 
   it("labels both sides", () => {
     expect(SIDE_ORDER).toEqual(["left", "right"]);
-    expect(SIDE_LABEL.left).toBe("Left under-eye");
-    expect(SIDE_LABEL.right).toBe("Right under-eye");
+    expect(SIDE_LABEL.left).toBe("Left eye");
+    expect(SIDE_LABEL.right).toBe("Right eye");
   });
 });
 

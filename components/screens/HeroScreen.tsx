@@ -45,8 +45,9 @@ export function HeroScreen() {
         transition={{ duration: 0.9, ease: EASE, delay: 0.85 }}
         className="relative z-10 mt-7 max-w-md text-lg leading-relaxed text-body"
       >
-        Take a selfie and our AI reads the area under your eyes — hollowing,
-        dark circles, puffiness, fine lines and crow&rsquo;s feet — then
+        Take a selfie and our AI reads your whole eye area — upper-lid
+        hooding, hollowing, dark circles, puffiness, fine lines and
+        crow&rsquo;s feet — then
         matches you to the right Harley Street Aesthetics treatment at our{" "}
         {clinic.city} clinic. Doctor-led. No pressure, just clarity.
       </motion.p>
