@@ -25,7 +25,6 @@ export type TreatmentId =
   | "darkcircles"
   | "teartrough"
   | "coolbleph"
-  | "morpheus8"
   | "antiwrinkle"
   | "consultation";
 

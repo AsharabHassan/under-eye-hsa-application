@@ -27,7 +27,6 @@ const treatmentId = z.enum([
   "darkcircles",
   "teartrough",
   "coolbleph",
-  "morpheus8",
   "antiwrinkle",
   "consultation",
 ]);

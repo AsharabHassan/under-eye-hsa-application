@@ -17,7 +17,6 @@ const TREATMENT_IDS: TreatmentId[] = [
   "darkcircles",
   "teartrough",
   "coolbleph",
-  "morpheus8",
   "antiwrinkle",
   "consultation",
 ];
@@ -33,12 +32,12 @@ export function isTreatmentId(v: unknown): v is TreatmentId {
   return typeof v === "string" && (TREATMENT_IDS as string[]).includes(v);
 }
 
-/** The treatment each concern leads to. Puffiness goes to Cool Bleph — never filler. */
+/** The treatment each concern leads to. Puffiness and crepey skin go to CO₂ non-surgical blepharoplasty — never filler. */
 export const CONCERN_TO_TREATMENT: Record<ConcernKey, TreatmentId> = {
   hollowing: "teartrough",
   darkcircles: "darkcircles",
   puffiness: "coolbleph",
-  finelines: "morpheus8",
+  finelines: "coolbleph",
   crowsfeet: "antiwrinkle",
 };
 
@@ -63,14 +62,14 @@ function clamp(n: number | undefined): number {
  * Rules (owner-reviewable):
  * 1. A `consultation` or `alternative` outcome always leads to a consultation.
  * 2. The dominant concern is the highest severity ≥ 35. Puffiness dominant →
- *    Cool Bleph non-surgical blepharoplasty (filler does not treat puffiness;
+ *    CO₂ non-surgical blepharoplasty (filler does not treat puffiness;
  *    never route it to tear trough filler).
  * 3. Otherwise the dominant concern's treatment wins — unless Claude proposed
  *    the treatment for a concern within 10 points of the dominant one, in which
  *    case Claude's judgement stands (it saw the face; the numbers are close).
  * 4. With no concern ≥ 35 Claude's proposal stands if it is a real treatment;
- *    a missing or "consultation" proposal falls back to Dark Circles
- *    Reduction, the gentlest skin-quality option for a mild presentation.
+ *    a missing or "consultation" proposal falls back to the Dark Circles
+ *    Treatment, the gentlest skin-quality option for a mild presentation.
  * 5. Secondary = the treatment for the next concern ≥ 30 that maps to a
  *    different treatment than the lead and is not a consultation.
  */

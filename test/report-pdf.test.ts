@@ -41,8 +41,8 @@ export const SAMPLE_REPORT: ReportInput = {
   concerns: [
     { title: "Dark circles", blurb: "Our Dark Circles Reduction treatment aims to brighten pigmented under-eye skin and strengthen thin skin.", severity: 48, improvement: 58, lead: true },
     { title: "Hollowing", blurb: "Tear trough filler can gently restore volume in the groove.", severity: 38, improvement: 52, lead: false },
-    { title: "Puffiness", blurb: "Cool Bleph is a non-surgical blepharoplasty treatment for under-eye bags.", severity: 12, improvement: 22, lead: false },
-    { title: "Fine lines & crepey skin", blurb: "Morpheus8 can help firm and smooth thin, crepey skin.", severity: 10, improvement: 28, lead: false },
+    { title: "Puffiness", blurb: "CO₂ non-surgical blepharoplasty tightens skin to reduce the look of under-eye bags.", severity: 12, improvement: 22, lead: false },
+    { title: "Fine lines & crepey skin", blurb: "CO₂ non-surgical blepharoplasty firms thin, crepey skin.", severity: 10, improvement: 28, lead: false },
     { title: "Crow's feet", blurb: "Anti-wrinkle injections can soften the fan of lines.", severity: 8, improvement: 25, lead: false },
   ],
   treatment: {
@@ -57,10 +57,10 @@ export const SAMPLE_REPORT: ReportInput = {
   treatmentReason:
     "The subtly darker, slightly tired tone visible beneath your eyes is the kind of concern our Dark Circles Reduction treatment is designed to brighten over time.",
   secondaryTreatment: {
-    name: "Cool Bleph non-surgical blepharoplasty",
+    name: "CO₂ Non-Surgical Blepharoplasty",
     tagline: "A non-surgical approach to hooding and under-eye bags",
     description:
-      "Cool Bleph is a non-surgical blepharoplasty treatment for hooding and under-eye bags.",
+      "CO₂ non-surgical blepharoplasty tightens the skin around the eyes.",
     course: "Your practitioner confirms the number of sessions at your consultation",
     price: "Price confirmed at your consultation",
     pricePublished: false,

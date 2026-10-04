@@ -228,21 +228,21 @@ export const CONCERNS: Record<ConcernKey, ConcernMeta> = {
     label: "Dark circles",
     meaning: "Darker or dull tone in the skin beneath the eyes",
     blurb:
-      "Our Dark Circles Reduction treatment aims to brighten pigmented under-eye skin and strengthen thin skin over a short course, for a fresher, more rested look.",
+      "Our Dark Circles Treatment aims to brighten pigmented under-eye skin and strengthen thin skin over a short course, for a fresher, more rested look.",
   },
   puffiness: {
     key: "puffiness",
     label: "Puffiness",
     meaning: "Fullness or a soft bag beneath the lower lid",
     blurb:
-      "Cool Bleph is a non-surgical blepharoplasty treatment for hooding and under-eye bags. Filler does not treat puffiness, so suitability is always checked at your consultation.",
+      "CO₂ non-surgical blepharoplasty tightens the skin around the eyes to reduce the look of under-eye bags and hooding. Filler does not treat puffiness, so suitability is always checked at your consultation.",
   },
   finelines: {
     key: "finelines",
     label: "Fine lines & crepey skin",
     meaning: "Fine creasing or a crinkled, papery texture under the eye",
     blurb:
-      "Morpheus8 radiofrequency microneedling can help firm and smooth thin, crepey under-eye skin by encouraging the skin's own renewal over a course.",
+      "CO₂ non-surgical blepharoplasty resurfaces and firms thin, crepey under-eye skin, softening fine lines as new collagen builds.",
   },
   crowsfeet: {
     key: "crowsfeet",
@@ -294,7 +294,7 @@ export function hasPublishedPrice(
 export const TREATMENTS: Record<TreatmentId, Treatment> = {
   darkcircles: {
     id: "darkcircles",
-    name: "Dark Circles Reduction",
+    name: "Dark Circles Treatment",
     tagline: "Brighten and strengthen delicate under-eye skin",
     description:
       "Our dark-circle treatment is designed to brighten pigmented under-eye skin and strengthen thin skin, helping the area look fresher and more rested. Your practitioner tailors the approach to your skin.",
@@ -304,49 +304,34 @@ export const TREATMENTS: Record<TreatmentId, Treatment> = {
     // TODO(HSA): confirm price
     priceFrom: { london: 0, glasgow: 0 },
     leadsFor: "darkcircles",
-    ghlLabel: "Dark Circles Reduction",
+    ghlLabel: "Dark Circles Treatment",
   },
   teartrough: {
     id: "teartrough",
     name: "Tear trough filler",
     tagline: "Restore the volume beneath the eye",
     description:
-      "A soft hyaluronic acid filler, placed by one of our doctors, gently fills the groove between the lower lid and the cheek so the area reads smoother and more rested.",
-    course: "Your doctor confirms the plan and any review at your consultation",
-    // TODO(HSA): confirm price
-    price: { london: PRICE_AT_CONSULTATION, glasgow: PRICE_AT_CONSULTATION },
-    // TODO(HSA): confirm price
-    priceFrom: { london: 0, glasgow: 0 },
+      "Premium hyaluronic acid filler (Juvéderm® or Sosum) is placed by one of our GMC-registered doctors using a gentle cannula technique, softening the hollow between the lower lid and the cheek so shadows lift and the area looks rested.",
+    course: "Usually one visit · free review at 2 weeks · results last 9–24 months · no downtime",
+    // From harleystreetaesthetic.co.uk/london/pricing and /glasgow/pricing (Oct 2026).
+    price: { london: "1 ml £249–£299", glasgow: "1 ml £249–£299" },
+    priceFrom: { london: 249, glasgow: 249 },
     leadsFor: "hollowing",
-    ghlLabel: "Tear trough filler",
+    ghlLabel: "Tear trough filler £249–£299",
   },
   coolbleph: {
     id: "coolbleph",
-    name: "Cool Bleph non-surgical blepharoplasty",
-    tagline: "A non-surgical approach to hooding and under-eye bags",
+    name: "CO₂ Non-Surgical Blepharoplasty",
+    tagline: "Lift and tighten the skin around the eyes — without surgery",
     description:
-      "Cool Bleph is a non-surgical blepharoplasty treatment for hooding and under-eye bags. Your practitioner checks the area in person to confirm it is the right approach for you.",
-    course: "Your practitioner confirms the number of sessions at your consultation",
+      "Precise fractional CO₂ laser resurfaces and tightens the delicate skin around the eyes, firming crepey skin, softening fine lines and reducing the look of hooding and under-eye bags — a non-surgical alternative to eyelid surgery.",
+    course: "Usually 1–3 sessions · a few days of social downtime · results build over 3 months",
     // TODO(HSA): confirm price
     price: { london: PRICE_AT_CONSULTATION, glasgow: PRICE_AT_CONSULTATION },
     // TODO(HSA): confirm price
     priceFrom: { london: 0, glasgow: 0 },
     leadsFor: "puffiness",
-    ghlLabel: "Cool Bleph non-surgical blepharoplasty",
-  },
-  morpheus8: {
-    id: "morpheus8",
-    name: "Morpheus8",
-    tagline: "Firm and smooth crepey under-eye skin",
-    description:
-      "Morpheus8 combines microneedling with radiofrequency energy to encourage the skin's own renewal, helping to firm thin, crepey under-eye skin and soften fine lines over a course.",
-    course: "A short course — your practitioner confirms the number of sessions",
-    // TODO(HSA): confirm price
-    price: { london: PRICE_AT_CONSULTATION, glasgow: PRICE_AT_CONSULTATION },
-    // TODO(HSA): confirm price
-    priceFrom: { london: 0, glasgow: 0 },
-    leadsFor: "finelines",
-    ghlLabel: "Morpheus8",
+    ghlLabel: "CO2 Non-Surgical Blepharoplasty",
   },
   antiwrinkle: {
     id: "antiwrinkle",

@@ -84,7 +84,7 @@ describe("decideTreatment — outcome rules", () => {
     expect(r.secondary).toBe("teartrough");
   });
 
-  it("routes dominant puffiness to Cool Bleph, never filler", () => {
+  it("routes dominant puffiness to CO2 blepharoplasty, never filler", () => {
     const r = decideTreatment({
       bucket: "great",
       severity: sev({ puffiness: 75, hollowing: 60 }),
@@ -98,7 +98,7 @@ describe("decideTreatment — outcome rules", () => {
     expect(r.secondary).toBe("teartrough");
   });
 
-  it("keeps Claude's Cool Bleph pick for dominant puffiness", () => {
+  it("keeps Claude's CO2 blepharoplasty pick for dominant puffiness", () => {
     const r = decideTreatment({
       bucket: "good",
       severity: sev({ puffiness: 62 }),
@@ -108,7 +108,7 @@ describe("decideTreatment — outcome rules", () => {
     expect(r).toMatchObject({ lead: "coolbleph", source: "claude" });
   });
 
-  it("falls back to Dark Circles Reduction for a mild presentation with no usable proposal", () => {
+  it("falls back to the Dark Circles Treatment for a mild presentation with no usable proposal", () => {
     const r = decideTreatment({
       bucket: "good",
       severity: sev({ hollowing: 20, darkcircles: 25 }),
@@ -123,10 +123,10 @@ describe("decideTreatment — outcome rules", () => {
     const r = decideTreatment({
       bucket: "good",
       severity: sev({ finelines: 30 }),
-      proposed: "morpheus8",
+      proposed: "coolbleph",
       reason: "",
     });
-    expect(r.lead).toBe("morpheus8");
+    expect(r.lead).toBe("coolbleph");
     expect(r.source).toBe("claude");
   });
 
@@ -176,14 +176,12 @@ describe("treatmentsFor / menu integrity", () => {
       hollowing: "teartrough",
       darkcircles: "darkcircles",
       puffiness: "coolbleph",
-      finelines: "morpheus8",
+      finelines: "coolbleph",
       crowsfeet: "antiwrinkle",
     });
-    expect(TREATMENTS.darkcircles.name).toBe("Dark Circles Reduction");
-    expect(TREATMENTS.coolbleph.name).toBe(
-      "Cool Bleph non-surgical blepharoplasty",
-    );
-    expect(TREATMENTS.morpheus8.name).toBe("Morpheus8");
+    expect(TREATMENTS.darkcircles.name).toBe("Dark Circles Treatment");
+    expect(TREATMENTS.coolbleph.name).toBe("CO₂ Non-Surgical Blepharoplasty");
+    expect(TREATMENTS.teartrough.priceFrom).toEqual({ london: 249, glasgow: 249 });
   });
 
   it("every concern maps to a treatment on the menu, and every treatment has a display price for both locations", () => {
