@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useWizard } from "@/store/wizard-store";
-import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { Logo } from "@/components/brand/Logo";
 import { ClinicFooter } from "@/components/brand/ClinicFooter";
 import { ProgressRail } from "./ProgressRail";
@@ -18,6 +17,7 @@ import {
   useClinicLocation,
 } from "@/components/clinic/ClinicLocationContext";
 import { DEFAULT_CLINIC_LOCATION, type ClinicLocationKey } from "@/lib/constants";
+import styles from "./AnalysisExperience.module.css";
 
 const SCREENS = {
   hero: HeroScreen,
@@ -46,8 +46,7 @@ function WizardJourney() {
   const showFooter = step === "hero" || step === "result";
 
   return (
-    <div className="flex min-h-dvh flex-col overflow-x-hidden">
-      <AmbientBackground />
+    <div className={`${styles.experience} flex min-h-dvh flex-col overflow-x-hidden`} data-analysis-step={step}>
       <Header hero={step === "hero"} step={step} />
 
       <main className="flex flex-1 items-center justify-center">
@@ -80,12 +79,12 @@ function Header({
       className="sticky top-0 z-30"
     >
       <motion.div
-        className="h-px origin-left bg-gradient-to-r from-transparent via-peach/60 to-transparent"
+        className="h-px origin-left bg-gradient-to-r from-transparent via-peach-deep/60 to-transparent"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
       />
-      <div className="border-b border-sage/15 bg-cream/70 backdrop-blur-xl max-md:bg-cream/90 max-md:backdrop-blur-md">
+      <div className={`${styles.header} border-b backdrop-blur-xl`}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:px-8">
           <Logo />
 
