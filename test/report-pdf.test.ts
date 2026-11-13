@@ -20,7 +20,7 @@ export const SAMPLE_REPORT: ReportInput = {
   phone: "020 4628 3165",
   email: "hello@harleystreetaesthetic.co.uk",
   bookingUrl: "harleystreetaesthetic.co.uk/london/contact/",
-  addressLines: ["10 Harley Street", "London W1G 9PF"],
+  addressLines: ["2 Grosvenor Gardens", "London SW1W 0DH"],
   preparedFor: "Jane",
   dateStr: "15 September 2026",
   verdictLabel: "Good candidate",

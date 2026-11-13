@@ -47,6 +47,12 @@ export interface GhlPayload {
   imageProcessingConsentRecordedAt?: string;
   privacyNoticeVersion: string;
   metaTrackingConsent: boolean;
+  /** The client asked us to call/text/WhatsApp them about their consultation. */
+  consultationContactConsent: boolean;
+  consultationContactConsentAt?: string;
+  consultationContactStatement?: string;
+  consultationContactConsentVersion?: string;
+  preferredCallTime?: string;
   submittedAt?: string;
   // Flat, allow-listed fields for the conditional GHL -> Meta CAPI action.
   metaDatasetId?: string;
@@ -75,6 +81,8 @@ export interface BuildGhlPayloadOptions {
   privacyNoticeVersion?: string;
   metaTrackingConsent: boolean;
   meta?: ServerMetaConversion;
+  consultationContact?: { at: string; statement: string; version: string };
+  preferredCallTime?: string;
 }
 
 /** Force an untrusted browser URL onto the production origin and drop query/hash. */
@@ -206,6 +214,8 @@ export function buildGhlPayload(
       options.metaTrackingConsent
         ? "hsa-meta-consent-accepted"
         : "hsa-meta-consent-declined",
+      ...(options.consultationContact ? ["hsa-consultation-call-requested"] : []),
+      ...(options.preferredCallTime ? [`hsa-call-${options.preferredCallTime}`] : []),
     ],
     clinicLocation: clinic.key,
     clinicLocationLabel: clinic.city,
@@ -239,6 +249,11 @@ export function buildGhlPayload(
     privacyNoticeVersion:
       options.privacyNoticeVersion ?? ANALYSIS_PRIVACY_NOTICE_VERSION,
     metaTrackingConsent: options.metaTrackingConsent,
+    consultationContactConsent: Boolean(options.consultationContact),
+    consultationContactConsentAt: options.consultationContact?.at,
+    consultationContactStatement: options.consultationContact?.statement,
+    consultationContactConsentVersion: options.consultationContact?.version,
+    preferredCallTime: options.preferredCallTime,
     submittedAt: options.submittedAt,
     ...metaFields,
   };

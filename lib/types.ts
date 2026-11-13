@@ -167,6 +167,13 @@ export interface LeadRequest {
   imageProcessingConsentAt: string;
   /** Explicit choice for Meta advertising measurement. */
   metaTrackingConsent: boolean;
+  /** The client ticked "I'm requesting a free consultation" before the scan. */
+  consultationContactConsent?: true;
+  consultationContactConsentAt?: string;
+  /** The exact wording they agreed to, kept on the CRM contact as evidence. */
+  consultationContactStatement?: string;
+  consultationContactConsentVersion?: string;
+  preferredCallTime?: "morning" | "afternoon" | "evening";
   /** Optional browser attribution; ignored unless Meta tracking is accepted. */
   attribution?: ClientMetaAttribution;
 }

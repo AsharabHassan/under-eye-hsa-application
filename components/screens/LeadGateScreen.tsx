@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Lock, Sparkles, Loader2 } from "lucide-react";
+import { Lock, PhoneCall, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { useWizard } from "@/store/wizard-store";
@@ -15,6 +15,12 @@ import { getMetaAttribution } from "@/lib/meta-pixel";
 import { hasMetaTrackingConsent } from "@/lib/meta-consent";
 import type { Lead } from "@/lib/types";
 import { useClinicLocation } from "@/components/clinic/ClinicLocationContext";
+import {
+  CALL_TIMES,
+  CALLBACK_PROMISE,
+  CONSULTATION_CONTACT_CONSENT_VERSION,
+  consultationContactStatement,
+} from "@/lib/consultation-consent";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,6 +30,10 @@ export function LeadGateScreen() {
   const imageMediaType = useWizard((s) => s.imageMediaType);
   const imageConsent = useWizard((s) => s.imageConsent);
   const imageConsentAt = useWizard((s) => s.imageConsentAt);
+  const contactConsent = useWizard((s) => s.contactConsent);
+  const contactConsentAt = useWizard((s) => s.contactConsentAt);
+  const callTime = useWizard((s) => s.callTime);
+  const setCallTime = useWizard((s) => s.setCallTime);
   const landmarks = useWizard((s) => s.landmarks);
   const storedResult = useWizard((s) => s.result);
   const setLead = useWizard((s) => s.setLead);
@@ -85,6 +95,16 @@ export function LeadGateScreen() {
       imageProcessingConsentAt:
         imageConsentAt ?? new Date().toISOString(),
       metaTrackingConsent: hasMetaTrackingConsent(),
+      ...(contactConsent
+        ? {
+            consultationContactConsent: true as const,
+            consultationContactConsentAt:
+              contactConsentAt ?? new Date().toISOString(),
+            consultationContactStatement: consultationContactStatement(clinic.city),
+            consultationContactConsentVersion: CONSULTATION_CONTACT_CONSENT_VERSION,
+          }
+        : {}),
+      ...(callTime ? { preferredCallTime: callTime } : {}),
       attribution: getMetaAttribution(),
     });
 
@@ -113,16 +133,16 @@ export function LeadGateScreen() {
         className="rounded-[2rem] border border-peach/30 bg-white/[0.04] p-7 shadow-soft backdrop-blur"
       >
         <span className="inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/10 px-3 py-1 text-xs font-semibold text-peach-deep">
-          <Sparkles size={13} /> Your result is ready
+          <Sparkles size={13} /> Step 2 of 4 · Your report is ready
         </span>
         <h2 className="mt-4 font-serif text-[30px] leading-tight text-heading">
-          Where shall we send your result?
+          Where shall we send your pre-consultation report?
         </h2>
         <p className="mt-2 text-sm text-body">
-          See your personalised eye rejuvenation analysis and the Harley Street
-          Aesthetics treatment matched to it. We&rsquo;ll email your report and
-          keep a copy on your record so our {clinic.city} team can review it
-          before your consultation.
+          Your eye-area report is the first half of your assessment.
+          We&rsquo;ll email it to you and save it to your clinic record, so our
+          doctor-led {clinic.city} team has it ready for your free 15-minute
+          online consultation, where they confirm your plan.
         </p>
 
         <form onSubmit={submit} className="mt-6 space-y-4">
@@ -147,13 +167,48 @@ export function LeadGateScreen() {
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
           />
-          <TextField
-            label="Phone"
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            autoComplete="tel"
-          />
+          <div>
+            <TextField
+              label="Best number for your consultation call"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              autoComplete="tel"
+            />
+            <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-relaxed text-body/80">
+              <PhoneCall size={13} className="mt-0.5 shrink-0 text-peach" />
+              <span>
+                Our {clinic.city} team will call you {CALLBACK_PROMISE}.
+              </span>
+            </p>
+          </div>
+
+          <fieldset>
+            <legend className="text-xs font-semibold uppercase tracking-[0.14em] text-heading/70">
+              Best time to call you{" "}
+              <span className="font-normal normal-case tracking-normal text-body/60">(optional)</span>
+            </legend>
+            <div className="mt-2 grid grid-cols-3 gap-2">
+              {CALL_TIMES.map((t) => {
+                const on = callTime === t.key;
+                return (
+                  <button
+                    key={t.key}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setCallTime(on ? null : t.key)}
+                    className={`rounded-xl border px-2 py-2.5 text-sm transition ${
+                      on
+                        ? "border-peach bg-peach/15 font-semibold text-heading"
+                        : "border-white/15 text-body hover:border-peach/60"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
 
           <p className="rounded-2xl border border-sage/20 bg-sage/[0.06] px-4 py-3 text-xs leading-relaxed text-body/75">
             We&rsquo;ll email your full report to this address and save a copy to
@@ -172,15 +227,15 @@ export function LeadGateScreen() {
             {busy ? (
               <>
                 <Loader2 size={18} className="animate-spin" /> Preparing your
-                result…
+                report…
               </>
             ) : (
-              "Reveal my result"
+              "See my report"
             )}
           </Button>
 
           <p className="flex items-center justify-center gap-1.5 text-xs text-body/55">
-            <Lock size={12} /> We respect your privacy. No spam.
+            <Lock size={12} /> Used only for your report and consultation. No spam.
           </p>
         </form>
       </motion.div>

@@ -8,6 +8,7 @@ import {
 } from "@/lib/ghl";
 import { serverEnv } from "@/lib/env";
 import { ensureLeadRoutingInGhl } from "@/lib/ghl-contact";
+import { CALL_TIME_KEYS } from "@/lib/consultation-consent";
 import type { Lead } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -104,6 +105,13 @@ export const leadRequestSchema = z
     imageProcessingConsent: z.literal(true),
     imageProcessingConsentAt: z.string().datetime(),
     metaTrackingConsent: z.boolean(),
+    // "I'm requesting a free consultation" — ticked before the scan. Optional
+    // only so a tab opened before this release doesn't lose its lead.
+    consultationContactConsent: z.literal(true).optional(),
+    consultationContactConsentAt: z.string().datetime().optional(),
+    consultationContactStatement: z.string().trim().max(500).optional(),
+    consultationContactConsentVersion: z.string().trim().max(64).optional(),
+    preferredCallTime: z.enum(CALL_TIME_KEYS).optional(),
     attribution: attributionSchema.optional(),
   })
   .strict();
@@ -223,6 +231,14 @@ export async function POST(request: Request): Promise<Response> {
     imageProcessingConsentAt: body.imageProcessingConsentAt,
     metaTrackingConsent: metaTrackingAllowed,
     meta,
+    consultationContact: body.consultationContactConsent
+      ? {
+          at: body.consultationContactConsentAt ?? submittedAt,
+          statement: body.consultationContactStatement ?? "",
+          version: body.consultationContactConsentVersion ?? "",
+        }
+      : undefined,
+    preferredCallTime: body.preferredCallTime,
   });
 
   let webhook: string | undefined;

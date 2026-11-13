@@ -60,6 +60,29 @@ function buildOptions(overrides: Record<string, unknown> = {}) {
 }
 
 describe("buildGhlPayload", () => {
+  it("records the consultation call request as evidence and tags the contact", () => {
+    const payload = buildGhlPayload(lead, result, buildOptions({
+      consultationContact: {
+        at: "2026-09-15T09:50:00.000Z",
+        statement: "I’m requesting a free consultation. Please call, text or WhatsApp me…",
+        version: "consultation-contact-v1",
+      },
+      preferredCallTime: "evening",
+    }));
+    expect(payload).toMatchObject({
+      consultationContactConsent: true,
+      consultationContactConsentAt: "2026-09-15T09:50:00.000Z",
+      consultationContactConsentVersion: "consultation-contact-v1",
+      preferredCallTime: "evening",
+    });
+    expect(payload.tags).toEqual(
+      expect.arrayContaining(["hsa-consultation-call-requested", "hsa-call-evening"]),
+    );
+    const without = buildGhlPayload(lead, result, buildOptions());
+    expect(without.consultationContactConsent).toBe(false);
+    expect(without.tags).not.toContain("hsa-consultation-call-requested");
+  });
+
   it("maps CRM contact, result, treatment and consent fields", () => {
     const payload = buildGhlPayload(lead, result, buildOptions());
     expect(payload).toMatchObject({
@@ -71,7 +94,7 @@ describe("buildGhlPayload", () => {
       source: "Eye Rejuvenation Analyzer · London",
       clinicLocation: "london",
       clinicLocationLabel: "London",
-      clinicAddress: "10 Harley Street, London W1G 9PF",
+      clinicAddress: "2 Grosvenor Gardens, London SW1W 0DH",
       suitabilityBucket: "great",
       suitabilityLabel: "Strong candidate",
       suitabilityScore: 88,
@@ -237,6 +260,26 @@ describe("lead request validation", () => {
     expect(leadRequestSchema.safeParse(withoutTime).success).toBe(false);
     expect(
       leadRequestSchema.safeParse({ ...valid, imageProcessingConsent: false })
+        .success,
+    ).toBe(false);
+  });
+
+  it("accepts the consultation call request and only known call times", () => {
+    const withRequest = {
+      ...valid,
+      consultationContactConsent: true,
+      consultationContactConsentAt: "2026-09-15T11:58:00.000Z",
+      consultationContactStatement: "I’m requesting a free consultation.",
+      consultationContactConsentVersion: "consultation-contact-v1",
+      preferredCallTime: "morning",
+    };
+    expect(leadRequestSchema.safeParse(withRequest).success).toBe(true);
+    expect(
+      leadRequestSchema.safeParse({ ...withRequest, preferredCallTime: "midnight" })
+        .success,
+    ).toBe(false);
+    expect(
+      leadRequestSchema.safeParse({ ...withRequest, consultationContactConsent: false })
         .success,
     ).toBe(false);
   });

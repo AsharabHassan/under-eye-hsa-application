@@ -1,5 +1,6 @@
 import "server-only";
 import { skinScanUnderEye, underEyeNote } from "./skinscan";
+import { reportAgreement } from "./skinscan-agreement";
 import Anthropic from "@anthropic-ai/sdk";
 import type {
   Bucket,
@@ -198,5 +199,24 @@ export async function assessPhoto(params: {
   }
   const block = message.content.find((b) => b.type === "text");
   if (!block || block.type !== "text") throw new Error("no text block");
-  return parseAssessment(JSON.parse(block.text) as RawAssessment);
+  const result = parseAssessment(JSON.parse(block.text) as RawAssessment);
+
+  // SkinScan agreement log (no effect on the result): only for readable photos.
+  // Logging thresholds: SkinScan darkness index >= 10 is its own "moderate" cut;
+  // Claude severity >= 40 counts as a visible concern. Raw values are stored too.
+  if (scan && result.framingAdequate) {
+    const dark = result.concernSeverity.darkcircles;
+    const hollow = result.concernSeverity.hollowing;
+    const agree: Record<string, boolean> = {};
+    if (typeof dark === "number") agree.agree_darkcircles = (scan.darkness_index >= 10) === (dark >= 40);
+    if (typeof hollow === "number") agree.agree_hollowing = (scan.character === "structural") === (hollow >= 40);
+    if (Object.keys(agree).length)
+      reportAgreement(
+        "undereye",
+        { darkness_index: scan.darkness_index, character: scan.character, version: scan.version },
+        { darkcircles: dark ?? null, hollowing: hollow ?? null, proposedTreatment: result.proposedTreatment },
+        agree,
+      );
+  }
+  return result;
 }

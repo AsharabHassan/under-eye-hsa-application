@@ -162,7 +162,7 @@ export const PITCH: Partial<Record<TreatmentId, TreatmentPitch>> = {
 };
 
 export const WHY_HSA = [
-  "Doctor-led clinic on Harley Street, London and in Glasgow",
+  "Doctor-led clinics in London and Glasgow",
   "Treatments performed by GMC-registered doctors",
   "Matched to what your photo actually shows",
   "Free online consultation, with no pressure to book",

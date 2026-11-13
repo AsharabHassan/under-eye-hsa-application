@@ -4,7 +4,7 @@ import { WizardShell } from "@/components/wizard/WizardShell";
 export const metadata: Metadata = {
   title: "Free AI Eye Rejuvenation Analysis in London · Harley Street Aesthetics",
   description:
-    "Upload a selfie for a personalised eye rejuvenation analysis — hollowing, dark circles, puffiness, fine lines and crow's feet — matched to a Harley Street Aesthetics treatment, then book a consultation at 10 Harley Street.",
+    "Upload a selfie for a personalised eye rejuvenation analysis — hollowing, dark circles, puffiness, fine lines and crow's feet — matched to a Harley Street Aesthetics treatment, then book a free online consultation.",
   // `/` is the London analyzer; this route stays live for existing links.
   alternates: { canonical: "/" },
   openGraph: {

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Camera, Upload, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DisclaimerBanner } from "@/components/compliance/DisclaimerBanner";
+import { ConsultationRequest } from "@/components/compliance/ConsultationRequest";
 import {
   CameraCapture,
   inPageCameraAvailable,
@@ -14,6 +15,9 @@ import { fileToDownscaledImage } from "@/lib/image";
 
 export function ConsentCaptureScreen() {
   const setImageConsent = useWizard((s) => s.setImageConsent);
+  const contactConsent = useWizard((s) => s.contactConsent);
+  const setContactConsent = useWizard((s) => s.setContactConsent);
+  const [needsContact, setNeedsContact] = useState(false);
   const setImage = useWizard((s) => s.setImage);
   const beginScan = useWizard((s) => s.beginScan);
 
@@ -24,6 +28,16 @@ export function ConsentCaptureScreen() {
   const [inPageCameraFailed, setInPageCameraFailed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  /** The scan is only for clients who asked for a consultation. */
+  function requireContactConsent(): boolean {
+    if (contactConsent) return true;
+    setNeedsContact(true);
+    document
+      .getElementById("consultation-request")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return false;
+  }
 
   function handleCapture(base64: string, mediaType: MediaType) {
     setImageConsent(true);
@@ -86,6 +100,15 @@ export function ConsentCaptureScreen() {
         </div>
       ) : (
         <div className="mt-8 space-y-5">
+          <ConsultationRequest
+            checked={contactConsent}
+            onChange={(v) => {
+              setContactConsent(v);
+              if (v) setNeedsContact(false);
+            }}
+            invalid={needsContact}
+          />
+
           <PhotoGuide />
 
           <p className="rounded-2xl border border-sage/25 bg-sage/[0.07] px-4 py-3 text-xs leading-relaxed text-body/80">
@@ -108,6 +131,7 @@ export function ConsentCaptureScreen() {
               size="lg"
               className="flex-1"
               onClick={() => {
+                if (!requireContactConsent()) return;
                 setImageConsent(true);
                 setError(null);
                 if (inPageCameraFailed || !inPageCameraAvailable()) {
@@ -124,6 +148,7 @@ export function ConsentCaptureScreen() {
               size="lg"
               className="flex-1"
               onClick={() => {
+                if (!requireContactConsent()) return;
                 setImageConsent(true);
                 fileRef.current?.click();
               }}

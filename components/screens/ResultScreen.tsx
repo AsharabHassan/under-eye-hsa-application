@@ -15,7 +15,9 @@ import {
 } from "@/components/result/ResultsGallery";
 import { REVIEWS } from "@/lib/reviews";
 import { Testimonials } from "@/components/result/Testimonials";
-import { BookingCTA } from "@/components/result/BookingCTA";
+import { BookingCTA, StickyBookingBar } from "@/components/result/BookingCTA";
+import { BookingCalendar } from "@/components/result/BookingCalendar";
+import { NextStepCard } from "@/components/result/NextStepCard";
 import { DisclaimerBanner } from "@/components/compliance/DisclaimerBanner";
 import { BUCKET_META, TREATMENT_CONCERNS } from "@/lib/constants";
 import { EASE } from "@/lib/motion";
@@ -75,7 +77,7 @@ export function ResultScreen() {
       : (TREATMENT_CONCERNS as readonly string[]);
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-6 py-10">
+    <div className="mx-auto w-full max-w-2xl px-6 pb-28 pt-10 sm:pb-10">
       <motion.div {...reveal(0)} className="flex flex-col items-center text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-peach-deep">
           <Sparkles size={13} /> {meta.chip}
@@ -83,6 +85,10 @@ export function ResultScreen() {
         <h2 className="mt-4 font-serif text-[32px] leading-tight text-heading sm:text-[40px]">
           {narrative.headline}
         </h2>
+      </motion.div>
+
+      <motion.div {...reveal(0.1)} className="mt-8">
+        <NextStepCard />
       </motion.div>
 
       {result.usedPhoto && (
@@ -162,6 +168,10 @@ export function ResultScreen() {
         <TreatmentPlan />
       </motion.div>
 
+      <motion.div {...reveal(0.75)} className="mt-10">
+        <BookingCalendar />
+      </motion.div>
+
       {HAS_RESULTS_GALLERY && (
         <motion.div {...reveal(0.8)} className="mt-10">
           <ResultsGallery />
@@ -200,6 +210,8 @@ export function ResultScreen() {
       <motion.div {...reveal(1.1)}>
         <DisclaimerBanner className="mt-8" />
       </motion.div>
+
+      <StickyBookingBar label="Book my free consultation" />
     </div>
   );
 }

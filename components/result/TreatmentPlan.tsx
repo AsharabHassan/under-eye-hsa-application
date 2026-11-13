@@ -5,6 +5,7 @@ import { CalendarHeart, Check, Phone, Sparkles, Stethoscope } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { useWizard } from "@/store/wizard-store";
 import { useClinicLocation } from "@/components/clinic/ClinicLocationContext";
+import { scrollToBooking } from "@/components/result/BookingCalendar";
 import { treatmentsFor } from "@/lib/plan";
 import {
   TREATMENT_NOTE,
@@ -18,7 +19,7 @@ import { cn } from "@/lib/utils";
  * "Your recommended treatment" — the HSA menu item the analysis matched
  * to this face (validated by lib/plan.ts), with the location's price when one
  * is published (otherwise "confirmed at your consultation"), plus a smaller "also worth discussing" card when a second concern is
- * present. Every CTA goes to the clinic's booking destination.
+ * present. Every CTA scrolls to the embedded consultation calendar.
  */
 export function TreatmentPlan() {
   const result = useWizard((s) => s.result);
@@ -154,21 +155,15 @@ function TreatmentCard({
       </ul>
 
       <div className="mt-5 flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <a
-          href={clinic.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Button
+          size="md"
+          variant={lead ? "primary" : "outline"}
           className="w-full sm:w-auto"
+          onClick={scrollToBooking}
         >
-          <Button
-            size="md"
-            variant={lead ? "primary" : "outline"}
-            className="w-full sm:w-auto"
-          >
-            <CalendarHeart size={16} />
-            {lead ? "Book your consultation" : "Ask about this treatment"}
-          </Button>
-        </a>
+          <CalendarHeart size={16} />
+          {lead ? "Book your free consultation" : "Ask about this treatment"}
+        </Button>
         <a
           href={clinic.phoneHref}
           className="flex items-center gap-1.5 text-[12.5px] font-medium text-sage-deep transition hover:text-heading"

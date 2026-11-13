@@ -1,6 +1,6 @@
 # AI Under-Eye Analyzer · Harley Street Aesthetics
 
-A standalone web-app lead magnet for **Harley Street Aesthetics** (10 Harley Street, London, and Ingram House, Glasgow). A visitor takes a selfie, the AI reads the area beneath their eyes — hollowing, dark circles, puffiness, fine lines and crow's feet — and the result recommends **one HSA treatment** for the most visible concern. Leads and a branded PDF report flow into **GoHighLevel**. Primary CTA: **Book your consultation**.
+A standalone web-app lead magnet for **Harley Street Aesthetics** (2 Grosvenor Gardens, London, and Ingram House, Glasgow). A visitor takes a selfie, the AI reads the area beneath their eyes — hollowing, dark circles, puffiness, fine lines and crow's feet — and the result recommends **one HSA treatment** for the most visible concern. Leads and a branded PDF report flow into **GoHighLevel**. Primary CTA: **Book your consultation**.
 
 > The tool is a **cosmetic, informational pre-consultation guide — not a medical assessment or diagnosis.** It never names conditions or causes; suitability is always confirmed by our Harley Street medical team.
 

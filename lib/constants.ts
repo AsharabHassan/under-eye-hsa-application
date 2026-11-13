@@ -31,7 +31,7 @@ export const CLINIC = {
   tagline:
     "London & Glasgow's premier destination for advanced aesthetic medicine",
   // Primary (London flagship) — used wherever a single address is shown.
-  addressLines: ["10 Harley Street", "London W1G 9PF"],
+  addressLines: ["2 Grosvenor Gardens", "London SW1W 0DH"],
   phone: "020 4628 3165",
   phoneHref: "tel:+442046283165",
   whatsapp: "07700 106236",
@@ -44,7 +44,7 @@ export const CLINIC = {
       key: "london",
       city: "London",
       shortCity: "London",
-      lines: ["10 Harley Street", "London W1G 9PF"],
+      lines: ["2 Grosvenor Gardens", "London SW1W 0DH"],
       phone: "020 4628 3165",
       phoneHref: "tel:+442046283165",
     },
@@ -60,7 +60,7 @@ export const CLINIC = {
 } as const;
 
 export const TRUST_MARKERS = [
-  "10 Harley Street, London",
+  "Clinics in London & Glasgow",
   "Doctor-led & medically supervised",
   "Rated excellent by patients",
   "Flexible payment plans",
@@ -113,6 +113,40 @@ export function toE164Uk(phone: string): string {
   if (digits.startsWith("44")) return `+${digits}`;
   if (digits.startsWith("0")) return `+44${digits.slice(1)}`;
   return digits;
+}
+
+type CalendarLead = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+} | null;
+
+/** The field names GoHighLevel's calendar reads to prefill its contact form. */
+export function calendarPrefill(lead: CalendarLead): Record<string, string> {
+  if (!lead) return {};
+  return {
+    first_name: lead.firstName,
+    last_name: lead.lastName,
+    email: lead.email,
+    phone: toE164Uk(lead.phone),
+  };
+}
+
+/** Calendar link with the visitor's details prefilled, so booking is two taps. */
+export function prefilledCalendarUrl(
+  calendarUrl: string,
+  lead: CalendarLead,
+): string {
+  try {
+    const url = new URL(calendarUrl);
+    for (const [name, value] of Object.entries(calendarPrefill(lead))) {
+      url.searchParams.set(name, value);
+    }
+    return url.toString();
+  } catch {
+    return calendarUrl;
+  }
 }
 
 export const DEFAULT_CLINIC_LOCATION: ClinicLocationKey = "london";

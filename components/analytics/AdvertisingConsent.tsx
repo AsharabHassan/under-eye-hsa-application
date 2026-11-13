@@ -91,6 +91,7 @@ export function AdvertisingConsentPanel({
         <button
           type="button"
           onClick={onOpenSettings}
+          data-cookie-pill
           className="fixed bottom-3 left-3 z-[90] rounded-full border border-white/15 bg-[#111]/95 px-3 py-2 text-xs font-medium text-body shadow-lg backdrop-blur transition hover:border-sage/50 hover:text-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach"
         >
           Cookie settings

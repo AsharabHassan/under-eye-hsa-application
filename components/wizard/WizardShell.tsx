@@ -14,9 +14,10 @@ import { LeadGateScreen } from "@/components/screens/LeadGateScreen";
 import { ResultScreen } from "@/components/screens/ResultScreen";
 import {
   ClinicLocationProvider,
+  useClinicFromRoute,
   useClinicLocation,
 } from "@/components/clinic/ClinicLocationContext";
-import { DEFAULT_CLINIC_LOCATION, type ClinicLocationKey } from "@/lib/constants";
+import type { ClinicLocationKey } from "@/lib/constants";
 import styles from "./AnalysisExperience.module.css";
 
 const SCREENS = {
@@ -29,7 +30,7 @@ const SCREENS = {
 } as const;
 
 export function WizardShell({
-  clinicLocation = DEFAULT_CLINIC_LOCATION,
+  clinicLocation,
 }: {
   clinicLocation?: ClinicLocationKey;
 }) {
@@ -70,6 +71,7 @@ function Header({
   step: ReturnType<typeof useWizard.getState>["step"];
 }) {
   const clinic = useClinicLocation();
+  const cityFromRoute = useClinicFromRoute();
 
   return (
     <motion.header
@@ -94,7 +96,7 @@ function Header({
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-peach/60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-peach" />
               </span>
-              AI Analysis · {clinic.city}
+              AI Analysis · {cityFromRoute ? clinic.city : "London & Glasgow"}
             </div>
           ) : (
             <ProgressRail step={step} />
