@@ -44,13 +44,22 @@ npm test        # vitest
 npm run build
 ```
 
-Environment (see `.env.local.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `CRM_WEBHOOK_URL_LONDON`, `CRM_WEBHOOK_URL_GLASGOW`, `GHL_WEBHOOK_URL`, `GHL_API_TOKEN`, `GHL_LOCATION_ID`, optional `GHL_REPORT_FIELD_KEY`, `SKINSCAN_URL` / `SKINSCAN_API_KEY`, `NEXT_PUBLIC_SITE_URL` (default `https://undereye.harleystreetaesthetic.clinic`), `NEXT_PUBLIC_BOOKING_URL`, `NEXT_PUBLIC_GLASGOW_BOOKING_URL` (the "contact our clinic" fallback links), and the optional Meta ids `NEXT_PUBLIC_META_PIXEL_ID` / `META_DATASET_ID` (no pixel id is hard-coded).
+Environment (see `.env.local.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `CRM_WEBHOOK_URL_LONDON`, `CRM_WEBHOOK_URL_GLASGOW`, `GHL_WEBHOOK_URL`, `CRM_API_KEY` / `CRM_API_BASE` / `CRM_ACCOUNT` (see below), `GHL_API_TOKEN`, `GHL_LOCATION_ID`, optional `GHL_REPORT_FIELD_KEY`, `SKINSCAN_URL` / `SKINSCAN_API_KEY`, `NEXT_PUBLIC_SITE_URL` (default `https://undereye.harleystreetaesthetic.clinic`), `NEXT_PUBLIC_BOOKING_URL`, `NEXT_PUBLIC_GLASGOW_BOOKING_URL` (the "contact our clinic" fallback links), and the optional Meta ids `NEXT_PUBLIC_META_PIXEL_ID` / `META_DATASET_ID` (no pixel id is hard-coded).
 
 ## CRM cutover (bookings and leads)
 
 - **Booking:** the consultation calendar is the clinic CRM's free online consultation page, `CRM_BOOKING_URL` in `lib/constants.ts`, for both London and Glasgow. It is used by the result page's booking card, the report email and the PDF. The page (on `app.harleystreetaesthetic.co.uk`) allows framing, so the result page embeds it in an iframe with an "Open the booking page" link under it; it reads no name/email/phone parameters, so nothing is prefilled. `NEXT_PUBLIC_BOOKING_CALENDAR_URL` and `NEXT_PUBLIC_GLASGOW_BOOKING_CALENDAR_URL` are no longer read.
 - **Leads:** `/api/lead` POSTs the same JSON payload to the lead's clinic CRM webhook — `CRM_WEBHOOK_URL_LONDON` or `CRM_WEBHOOK_URL_GLASGOW`, chosen by `clinicLocation` — when that variable is set, and to `GHL_WEBHOOK_URL` exactly as before when it is not (`lib/lead-webhook.ts`). The log line `ghl_lead_delivery` shows `destination: "crm" | "ghl"`.
-- **Still on GoHighLevel:** the direct GHL API calls in `lib/ghl-contact.ts` (contact upsert + tags) and `lib/ghl-report.ts` (PDF upload, contact field, note, email) are unchanged.
+- **Still on GoHighLevel:** the direct GHL API calls in `lib/ghl-contact.ts` (contact upsert + tags) and `lib/ghl-report.ts` (PDF upload, contact field, note, email) are used only while `CRM_API_KEY` is unset (see below).
+
+## Clinic CRM API (replaces the GHL Private Integration)
+
+When `CRM_API_KEY` is set (the CRM's API key for the Harley Street Aesthetics sub-account), the app talks to the clinic CRM instead of GoHighLevel's API; with it unset, the GHL code path (`GHL_API_TOKEN` / `GHL_LOCATION_ID`) runs exactly as before, so it can be switched back.
+
+- **Leads** (`/api/lead`, `lib/crm-lead.ts`): one `POST /contacts` upsert with the lead's tags and its answers and results in CRM custom fields. The CRM keys and the GHL field each replaces are in `lib/crm-fields.ts` (`GHL_TO_CRM_FIELDS`, checked by `test/crm-fields.test.ts`); payload fields with no CRM field are listed in `UNMAPPED_PAYLOAD_FIELDS`.
+- **Report** (`/api/report`, `lib/crm-report.ts`): upsert → `POST /contacts/{id}/files` (PDF, `external_id` = a hash of the PDF so a retry never duplicates it) → the file's private patient link (`public_url`) into `facial_app_report_pdf` → note with the link → the same email as before from the CRM, with the link instead of an attachment.
+- A CRM failure is logged and never fails the patient's request; each call is retried once on a 5xx answer or a timeout.
+- `CRM_API_BASE` (optional, default `https://app.crm.strategyguys.agency/api/v1`; keep the main address, clinic domains cap uploads at 5 MB) and `CRM_ACCOUNT` (optional, default `harley-street-aesthetic`). The key needs `contacts.write`, `files.write` and `conversations.send`.
 
 ## Go-live checklist
 

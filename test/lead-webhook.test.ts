@@ -2,9 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { leadWebhookTarget } from "@/lib/lead-webhook";
 import type { AnalyzeResult, Lead } from "@/lib/types";
 
-vi.mock("@/lib/ghl-contact", () => ({
-  ensureLeadRoutingInGhl: vi.fn(async () => ({ ok: true, tagged: true })),
+const routing = vi.hoisted(() => ({
+  ghl: vi.fn(async (...args: unknown[]) => ({ ok: args.length > 0, tagged: true })),
+  crm: vi.fn(async (...args: unknown[]) => ({ ok: args.length > 0, tagged: true, contactId: 4773 })),
 }));
+vi.mock("@/lib/ghl-contact", () => ({ ensureLeadRoutingInGhl: routing.ghl }));
+vi.mock("@/lib/crm-lead", () => ({ ensureLeadInCrm: routing.crm }));
 
 const GHL = "https://services.leadconnectorhq.com/hooks/ghl";
 const LONDON = "https://app.crm.strategyguys.agency/api/webhooks/inbound/london";
@@ -171,5 +174,27 @@ describe("POST /api/lead delivery target", () => {
       Object.fromEntries(Object.entries(p).filter(([k]) => !/At$|_time$|Time$/.test(k)));
     expect(Object.keys(crmPayload).sort()).toEqual(Object.keys(ghlPayload).sort());
     expect(strip(crmPayload)).toEqual(strip(ghlPayload));
+  });
+
+  it("routes the contact through the CRM API, with its answers in custom fields, when CRM_API_KEY is set", async () => {
+    routing.ghl.mockClear();
+    routing.crm.mockClear();
+    vi.stubEnv("CRM_WEBHOOK_URL_LONDON", LONDON);
+    vi.stubEnv("CRM_API_KEY", "crm-test-key");
+    await post("london");
+    expect(routing.ghl).not.toHaveBeenCalled();
+    expect(routing.crm).toHaveBeenCalledTimes(1);
+    const input = routing.crm.mock.calls[0][0] as { tags: string[]; custom: Record<string, string>; source: string };
+    expect(input.source).toBe("Eye Rejuvenation Analyzer · London");
+    expect(input.tags).toEqual(expect.arrayContaining(["undereye-analyzer", "hsa-clinic-london", "undereye-plan-teartrough"]));
+    expect(input.custom).toMatchObject({ suitability_score: "88", assessment_label: "Strong candidate", "16_undereyes_severity": "hollowing:70" });
+  });
+
+  it("keeps GoHighLevel routing when only the GHL env is set", async () => {
+    routing.ghl.mockClear();
+    routing.crm.mockClear();
+    await post("london");
+    expect(routing.crm).not.toHaveBeenCalled();
+    expect(routing.ghl).toHaveBeenCalledTimes(1);
   });
 });

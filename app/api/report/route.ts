@@ -1,4 +1,6 @@
 import { deliverReportToGhl } from "@/lib/ghl-report";
+import { crmConfigured } from "@/lib/crm-api";
+import { deliverReportToCrm } from "@/lib/crm-report";
 import { baseTags } from "@/lib/ghl";
 import {
   CLINIC,
@@ -131,11 +133,16 @@ export async function POST(request: Request): Promise<Response> {
   const fileName = `Eye-Rejuvenation-Report-${safeName}.pdf`;
   const subject = `${first || "Your"} eye rejuvenation analysis report`;
 
-  const emailHtml = `
+  // GoHighLevel attaches the PDF; the CRM sends the patient's private link to it.
+  const reportEmailHtml = (reportUrl?: string) => `
     <div style="font-family:Manrope,Helvetica,Arial,sans-serif;color:#1c1813;line-height:1.6">
       <p>Hi ${emailFirst},</p>
       <p>Thank you for taking the eye rejuvenation analysis with
-      <strong>${CLINIC.name} ${clinic.city}</strong>. Your personalised report is attached as a PDF.</p>
+      <strong>${CLINIC.name} ${clinic.city}</strong>. ${
+        reportUrl
+          ? `Your personalised report is ready: <a href="${escapeHtml(reportUrl)}" style="color:#b8902a">open your report (PDF)</a>.`
+          : "Your personalised report is attached as a PDF."
+      }</p>
       <p>It's a guide to help you prepare — your suitability is always confirmed by
       our Harley Street medical team. When you're ready, book your consultation and
       we'll talk you through everything.</p>
@@ -148,7 +155,7 @@ export async function POST(request: Request): Promise<Response> {
   if (score !== undefined) noteParts.push(`(${score}/100)`);
   const noteBody = `${noteParts.join(" ")}: {url}`;
 
-  const result = await deliverReportToGhl({
+  const delivery = {
     firstName: first,
     lastName: last,
     email,
@@ -156,16 +163,27 @@ export async function POST(request: Request): Promise<Response> {
     pdfBase64: body.pdfBase64,
     fileName,
     subject,
-    emailHtml,
     noteBody,
     source: `Eye Rejuvenation Analyzer · ${clinic.city}`,
     tags: baseTags(clinic.key),
-  });
+  };
+  // The clinic CRM when CRM_API_KEY is set, else GoHighLevel as before.
+  const destination = crmConfigured() ? "CRM" : "GHL";
+  const result =
+    destination === "CRM"
+      ? await deliverReportToCrm({
+          ...delivery,
+          emailHtml: reportEmailHtml,
+          fileLabel: `${clinic.city} eye rejuvenation analysis report`,
+        })
+      : await deliverReportToGhl({ ...delivery, emailHtml: reportEmailHtml() });
 
   // Surface the failure category in the server log without leaking the PDF or
   // the patient's contact details.
   if (!result.ok && !result.skipped) {
-    console.error("[api/report] GHL delivery failed:", result.error);
+    console.error(`[api/report] ${destination} delivery failed:`, result.error);
+  } else if (result.ok && result.error) {
+    console.warn(`[api/report] ${destination} delivery incomplete:`, result.error);
   }
   return Response.json(result);
 }
