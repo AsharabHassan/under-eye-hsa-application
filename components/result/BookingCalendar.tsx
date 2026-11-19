@@ -1,10 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   CalendarHeart,
   Check,
   Clock,
   ExternalLink,
+  Loader2,
   ShieldCheck,
   Video,
 } from "lucide-react";
@@ -15,7 +17,10 @@ import { CONCERNS } from "@/lib/constants";
 
 export const BOOKING_ANCHOR_ID = "book";
 
-/** Smooth-scroll to the booking card from any booking button. */
+const FRAME_ID = "hsa-consultation-calendar";
+const STALL_MS = 12_000;
+
+/** Smooth-scroll to the embedded calendar from any booking button. */
 export function scrollToBooking(): void {
   const calendar = document.getElementById(BOOKING_ANCHOR_ID);
   if (!calendar) return;
@@ -24,15 +29,33 @@ export function scrollToBooking(): void {
 }
 
 /**
- * The free online consultation booking card. Booking happens on the clinic's
- * own CRM booking page (clinic.calendarUrl), opened in a new tab: that page
- * refuses to be framed (X-Frame-Options DENY / frame-ancestors 'none') and
- * reads no prefill parameters, so it can't be embedded here.
+ * The free online consultation calendar: the clinic's own CRM booking page
+ * (clinic.calendarUrl), embedded as a plain iframe. The page allows framing
+ * but reads no name/email/phone parameters, so nothing is prefilled, and it
+ * speaks no resize protocol, so the frame has a fixed height and scrolls
+ * inside. A plain link under it opens the same page in a new tab.
  */
 export function BookingCalendar({ points: customPoints }: { points?: string[] } = {}) {
   const clinic = useClinicLocation();
   const lead = useWizard((s) => s.lead);
   const result = useWizard((s) => s.result);
+  const [loaded, setLoaded] = useState(false);
+  const [stalled, setStalled] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const src = clinic.calendarUrl;
+
+  // Offer a retry only when the frame hasn't loaded at all after a while.
+  useEffect(() => {
+    if (loaded) return;
+    const timer = window.setTimeout(() => setStalled(true), STALL_MS);
+    return () => window.clearTimeout(timer);
+  }, [loaded, attempt, src]);
+
+  function retry() {
+    setLoaded(false);
+    setStalled(false);
+    setAttempt((value) => value + 1);
+  }
 
   const focus =
     result?.usedPhoto && Object.keys(result.concernSeverity).length > 0
@@ -92,30 +115,71 @@ export function BookingCalendar({ points: customPoints }: { points?: string[] } 
             </li>
           ))}
         </ul>
-
-        <a
-          href={clinic.calendarUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-7 inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-peach-deep via-peach to-peach-light px-9 text-base font-semibold tracking-tight text-ink shadow-[0_14px_40px_-12px_rgba(212,175,55,0.6)] transition-colors duration-300 hover:from-peach hover:via-peach-light hover:to-peach focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach-deep focus-visible:ring-offset-2 focus-visible:ring-offset-cream sm:w-auto"
-        >
-          <CalendarHeart size={18} /> See available times
-          <ExternalLink size={15} aria-hidden />
-        </a>
-        <p className="mx-auto mt-3 max-w-md text-xs leading-relaxed text-body/75">
-          Opens our clinic&rsquo;s secure booking page in a new tab.
-        </p>
       </div>
 
-      <p className="px-6 pb-3 pt-5 text-center text-xs text-body">
-        Prefer to talk first?{" "}
+      <div className="mt-7 px-2 pb-2 sm:px-3 sm:pb-3">
+        <div className="relative overflow-hidden rounded-[1.5rem] bg-white ring-1 ring-peach/40">
+          <div className="flex items-center justify-between gap-3 border-b border-black/[0.06] bg-[#faf7ef] px-4 py-2.5">
+            <span className="flex items-center gap-2 text-xs font-semibold text-[#1c1a16]">
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#b8902a]" />
+              {loaded ? "Live availability" : "Consultation calendar"}
+            </span>
+          </div>
+
+          {!loaded && (
+            <div
+              role="status"
+              className="absolute inset-x-0 bottom-0 top-[41px] z-10 flex flex-col items-center justify-center gap-3 bg-white px-6 text-center"
+            >
+              {!stalled && <Loader2 size={22} className="animate-spin text-[#b8902a]" />}
+              <span className="text-xs font-medium text-[#5c5852]">
+                {stalled
+                  ? "The calendar is taking a while to load. Try loading it again."
+                  : "Loading available times…"}
+              </span>
+              {stalled && (
+                <button
+                  type="button"
+                  onClick={retry}
+                  className="min-h-11 rounded-full border border-[#b8902a] px-5 text-sm font-semibold text-[#715320]"
+                >
+                  Retry calendar
+                </button>
+              )}
+            </div>
+          )}
+
+          <iframe
+            key={`${src}-${attempt}`}
+            src={src}
+            id={FRAME_ID}
+            title="Choose your free online consultation time"
+            referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+            onLoad={() => setLoaded(true)}
+            className="block h-[1100px] w-full border-0 sm:h-[900px]"
+          />
+        </div>
+      </div>
+
+      <p className="px-6 pb-3 pt-3 text-center text-xs text-body">
+        Calendar not showing?{" "}
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 font-semibold text-peach-deep underline"
+        >
+          Open the booking page <ExternalLink size={12} aria-hidden />
+        </a>{" "}
+        or{" "}
         <a
           href={clinic.bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-peach-deep underline"
         >
-          Contact our {clinic.city} clinic
+          contact our {clinic.city} clinic
         </a>
         .
       </p>

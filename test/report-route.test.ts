@@ -67,7 +67,7 @@ describe("POST /api/report", () => {
     expect(input.emailHtml).toContain("Hi Jane");
     expect(input.emailHtml).toContain("Harley Street Aesthetics London");
     expect(input.emailHtml).toContain(
-      'href="https://app.crm.strategyguys.agency/book/harley-street-aesthetic/free-online-consultation-with-aesthetic-"',
+      'href="https://app.harleystreetaesthetic.co.uk/book/harley-street-aesthetic/free-online-consultation-with-aesthetic-"',
     );
     expect(input.fileName).toBe("Eye-Rejuvenation-Report-Jane.pdf");
     expect(input.tags).toEqual([

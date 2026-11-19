@@ -48,7 +48,7 @@ Environment (see `.env.local.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, 
 
 ## CRM cutover (bookings and leads)
 
-- **Booking:** the consultation calendar is the clinic CRM's free online consultation page, `CRM_BOOKING_URL` in `lib/constants.ts`, for both London and Glasgow. It is used by the result page's booking card, the report email and the PDF. The CRM page sends `X-Frame-Options: DENY` / `frame-ancestors 'none'` and reads no name/email/phone parameters, so it is opened in a new tab (no iframe, no prefill). `NEXT_PUBLIC_BOOKING_CALENDAR_URL` and `NEXT_PUBLIC_GLASGOW_BOOKING_CALENDAR_URL` are no longer read.
+- **Booking:** the consultation calendar is the clinic CRM's free online consultation page, `CRM_BOOKING_URL` in `lib/constants.ts`, for both London and Glasgow. It is used by the result page's booking card, the report email and the PDF. The page (on `app.harleystreetaesthetic.co.uk`) allows framing, so the result page embeds it in an iframe with an "Open the booking page" link under it; it reads no name/email/phone parameters, so nothing is prefilled. `NEXT_PUBLIC_BOOKING_CALENDAR_URL` and `NEXT_PUBLIC_GLASGOW_BOOKING_CALENDAR_URL` are no longer read.
 - **Leads:** `/api/lead` POSTs the same JSON payload to the lead's clinic CRM webhook — `CRM_WEBHOOK_URL_LONDON` or `CRM_WEBHOOK_URL_GLASGOW`, chosen by `clinicLocation` — when that variable is set, and to `GHL_WEBHOOK_URL` exactly as before when it is not (`lib/lead-webhook.ts`). The log line `ghl_lead_delivery` shows `destination: "crm" | "ghl"`.
 - **Still on GoHighLevel:** the direct GHL API calls in `lib/ghl-contact.ts` (contact upsert + tags) and `lib/ghl-report.ts` (PDF upload, contact field, note, email) are unchanged.
 

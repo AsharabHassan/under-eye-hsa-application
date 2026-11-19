@@ -93,10 +93,11 @@ export const BOOKING_URLS: Record<ClinicLocationKey, string> = {
 };
 
 // The free online consultation booking page in the clinic's own CRM. One
-// shared page for both clinics (it can't be framed and reads no prefill
-// parameters, so it is always opened as a link).
+// shared page for both clinics, embedded on the result page (the page allows
+// framing) and linked from the report email and PDF. It reads no name/email/
+// phone parameters, so nothing is prefilled.
 export const CRM_BOOKING_URL =
-  "https://app.crm.strategyguys.agency/book/harley-street-aesthetic/free-online-consultation-with-aesthetic-";
+  "https://app.harleystreetaesthetic.co.uk/book/harley-street-aesthetic/free-online-consultation-with-aesthetic-";
 
 export const CALENDAR_URLS: Record<ClinicLocationKey, string> = {
   london: CRM_BOOKING_URL,
