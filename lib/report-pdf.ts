@@ -55,6 +55,7 @@ export interface ReportInput {
   palette: ReportPalette;
   phone: string;
   email: string;
+  /** Full https address of the online booking page (linked, not printed). */
   bookingUrl: string;
   addressLines: string[];
   preparedFor?: string;
@@ -495,7 +496,10 @@ export function buildReportPdf(input: ReportInput): Blob {
   doc.text("Book your consultation", M + 7, y + 7.5);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
-  doc.text(`${input.bookingUrl}   ·   ${input.phone}   ·   ${input.email}`, M + 7, y + 13);
+  // The booking page's address is long, so print a short label and make the
+  // whole panel a link to it.
+  doc.text(`Book online: free consultation   ·   ${input.phone}   ·   ${input.email}`, M + 7, y + 13);
+  doc.link(M, y, CW, 18, { url: input.bookingUrl });
   y += 22;
 
   doc.setFont("helvetica", "normal");

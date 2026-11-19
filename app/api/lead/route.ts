@@ -7,6 +7,7 @@ import {
   PRODUCTION_ORIGIN,
 } from "@/lib/ghl";
 import { serverEnv } from "@/lib/env";
+import { leadWebhookTarget, type LeadWebhookTarget } from "@/lib/lead-webhook";
 import { ensureLeadRoutingInGhl } from "@/lib/ghl-contact";
 import { CALL_TIME_KEYS } from "@/lib/consultation-consent";
 import type { Lead } from "@/lib/types";
@@ -241,12 +242,14 @@ export async function POST(request: Request): Promise<Response> {
     preferredCallTime: body.preferredCallTime,
   });
 
-  let webhook: string | undefined;
+  // The clinic's CRM webhook when configured, otherwise GoHighLevel.
+  let target: LeadWebhookTarget | undefined;
   try {
-    webhook = serverEnv().GHL_WEBHOOK_URL;
+    target = leadWebhookTarget(body.clinicLocation, serverEnv());
   } catch {
-    webhook = undefined;
+    target = undefined;
   }
+  const webhook = target?.url;
 
   const deliveryPromise = webhook
     ? deliverWebhook(webhook, payload)
@@ -269,6 +272,7 @@ export async function POST(request: Request): Promise<Response> {
     trackingQueued,
     routingEnsured: routing.ok && routing.tagged === true,
     webhookConfigured: Boolean(webhook),
+    destination: target?.destination ?? "none",
     leadTreatment: payload.leadTreatment,
   };
   if (delivery.delivered) console.info("[lead]", log);

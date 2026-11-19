@@ -44,7 +44,13 @@ npm test        # vitest
 npm run build
 ```
 
-Environment: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `GHL_WEBHOOK_URL`, `GHL_API_TOKEN`, `GHL_LOCATION_ID`, optional `GHL_REPORT_FIELD_KEY`, `NEXT_PUBLIC_SITE_URL` (default `https://undereye.harleystreetaesthetic.clinic`), `NEXT_PUBLIC_BOOKING_URL`, `NEXT_PUBLIC_GLASGOW_BOOKING_URL`, `NEXT_PUBLIC_BOOKING_CALENDAR_URL`, `NEXT_PUBLIC_GLASGOW_BOOKING_CALENDAR_URL`, and the optional Meta ids `NEXT_PUBLIC_META_PIXEL_ID` / `META_DATASET_ID` (no pixel id is hard-coded).
+Environment (see `.env.local.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `CRM_WEBHOOK_URL_LONDON`, `CRM_WEBHOOK_URL_GLASGOW`, `GHL_WEBHOOK_URL`, `GHL_API_TOKEN`, `GHL_LOCATION_ID`, optional `GHL_REPORT_FIELD_KEY`, `SKINSCAN_URL` / `SKINSCAN_API_KEY`, `NEXT_PUBLIC_SITE_URL` (default `https://undereye.harleystreetaesthetic.clinic`), `NEXT_PUBLIC_BOOKING_URL`, `NEXT_PUBLIC_GLASGOW_BOOKING_URL` (the "contact our clinic" fallback links), and the optional Meta ids `NEXT_PUBLIC_META_PIXEL_ID` / `META_DATASET_ID` (no pixel id is hard-coded).
+
+## CRM cutover (bookings and leads)
+
+- **Booking:** the consultation calendar is the clinic CRM's free online consultation page, `CRM_BOOKING_URL` in `lib/constants.ts`, for both London and Glasgow. It is used by the result page's booking card, the report email and the PDF. The CRM page sends `X-Frame-Options: DENY` / `frame-ancestors 'none'` and reads no name/email/phone parameters, so it is opened in a new tab (no iframe, no prefill). `NEXT_PUBLIC_BOOKING_CALENDAR_URL` and `NEXT_PUBLIC_GLASGOW_BOOKING_CALENDAR_URL` are no longer read.
+- **Leads:** `/api/lead` POSTs the same JSON payload to the lead's clinic CRM webhook — `CRM_WEBHOOK_URL_LONDON` or `CRM_WEBHOOK_URL_GLASGOW`, chosen by `clinicLocation` — when that variable is set, and to `GHL_WEBHOOK_URL` exactly as before when it is not (`lib/lead-webhook.ts`). The log line `ghl_lead_delivery` shows `destination: "crm" | "ghl"`.
+- **Still on GoHighLevel:** the direct GHL API calls in `lib/ghl-contact.ts` (contact upsert + tags) and `lib/ghl-report.ts` (PDF upload, contact field, note, email) are unchanged.
 
 ## Go-live checklist
 

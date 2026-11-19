@@ -19,7 +19,7 @@ export const SAMPLE_REPORT: ReportInput = {
   },
   phone: "020 4628 3165",
   email: "hello@harleystreetaesthetic.co.uk",
-  bookingUrl: "harleystreetaesthetic.co.uk/london/contact/",
+  bookingUrl: "https://app.crm.strategyguys.agency/book/harley-street-aesthetic/free-online-consultation-with-aesthetic-",
   addressLines: ["2 Grosvenor Gardens", "London SW1W 0DH"],
   preparedFor: "Jane",
   dateStr: "15 September 2026",
@@ -85,6 +85,15 @@ describe("buildReportPdf", () => {
       const { writeFileSync } = await import("node:fs");
       writeFileSync(process.env.REPORT_OUT, bytes);
     }
+  });
+
+  it("links the booking panel to the CRM booking page without printing its long address", async () => {
+    const blob = buildReportPdf(SAMPLE_REPORT);
+    const text = Buffer.from(await blob.arrayBuffer()).toString("latin1");
+    expect(text).toContain(
+      "/URI (https://app.crm.strategyguys.agency/book/harley-street-aesthetic/free-online-consultation-with-aesthetic-)",
+    );
+    expect(text).toContain("Book online: free consultation");
   });
 
   it("still renders a published price inline", async () => {

@@ -194,7 +194,7 @@ export async function generateReportPdf(opts: {
     },
     phone: clinic.phone,
     email: CLINIC.email,
-    bookingUrl: clinic.bookingUrl.replace(/^https?:\/\//, ""),
+    bookingUrl: clinic.calendarUrl,
     addressLines: [...clinic.lines],
     preparedFor: lead?.firstName?.trim() || undefined,
     dateStr,

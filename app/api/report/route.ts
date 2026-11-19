@@ -139,7 +139,7 @@ export async function POST(request: Request): Promise<Response> {
       <p>It's a guide to help you prepare — your suitability is always confirmed by
       our Harley Street medical team. When you're ready, book your consultation and
       we'll talk you through everything.</p>
-      <p><a href="${clinic.bookingUrl}" style="color:#b8902a">Book your consultation →</a></p>
+      <p><a href="${clinic.calendarUrl}" style="color:#b8902a">Book your consultation →</a></p>
       <p style="color:#5c5852">— ${CLINIC.name}, ${clinic.city}</p>
     </div>`;
 
